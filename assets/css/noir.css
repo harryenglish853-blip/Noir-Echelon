@@ -1260,11 +1260,24 @@ ul, ol { list-style: none; }
   display: grid; place-items: center;
   background: var(--void);
 }
+/* The media box carries the video's own 16:9 ratio, so the frame is never
+   cropped — the whole lockup is visible at every viewport shape. It grows to
+   fill whichever dimension runs out first. */
+.reel__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: min(100%, calc((100svh - var(--reel-inset) * 2) * 16 / 9));
+  max-height: calc(100svh - var(--reel-inset) * 2);
+  margin-inline: auto;
+  overflow: hidden;
+  background: #000;
+  --reel-inset: clamp(0px, 3vh, 44px);
+}
 .reel__video,
 .reel__still {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0;
   transition: opacity 700ms var(--ease);
 }
@@ -1272,23 +1285,22 @@ ul, ol { list-style: none; }
 .reel.is-playing .reel__video { opacity: 1; }
 .reel.is-playing .reel__still { opacity: 0; }
 
-/* Vignette: keeps the overlay type legible and blends the stage into the page */
+/* Vignette hugs the footage rather than the stage around it */
 .reel__veil {
   position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse at 50% 45%, transparent 38%, rgba(4,4,4,0.45) 82%),
-    linear-gradient(0deg, var(--void) 1%, transparent 26%),
-    linear-gradient(180deg, var(--void) 1%, transparent 22%);
+  background: radial-gradient(ellipse at 50% 48%, transparent 52%, rgba(4,4,4,0.38) 94%);
 }
 .reel__frame {
   position: absolute;
-  inset: clamp(18px, 3.2vw, 56px);
+  inset: clamp(12px, 2vw, 34px);
   border: 1px solid rgba(201, 168, 124, 0.30);
   pointer-events: none;
 }
 
 .reel__caption {
-  position: relative; z-index: 2;
+  position: absolute; z-index: 3;
+  left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
   text-align: center;
   padding-inline: var(--gutter);
   transition: opacity 600ms var(--ease), transform 600ms var(--ease);
@@ -1303,8 +1315,8 @@ ul, ol { list-style: none; }
 .reel__caption .eyebrow { justify-content: center; margin-bottom: 22px; }
 .reel__caption .eyebrow::after { display: none; }
 /* The caption steps back once the mark starts to assemble */
-.reel[data-phase="mid"] .reel__caption { opacity: 0; transform: translateY(-14px); }
-.reel[data-phase="end"] .reel__caption { opacity: 0; transform: translateY(-14px); }
+.reel[data-phase="mid"] .reel__caption,
+.reel[data-phase="end"] .reel__caption { opacity: 0; transform: translateY(calc(-50% - 14px)); }
 
 .reel__cue {
   position: absolute; left: 50%; bottom: clamp(26px, 4vh, 48px);
@@ -1329,17 +1341,24 @@ ul, ol { list-style: none; }
 
 /* No JS, reduced motion, or a saver connection: one still frame, no scroll cost */
 .reel.is-static .reel__track { height: auto; }
-.reel.is-static .reel__stage { position: relative; height: clamp(320px, 62vh, 640px); }
+.reel.is-static .reel__stage { position: relative; height: auto; padding-block: clamp(40px, 7vh, 90px); }
+.reel.is-static .reel__media { max-height: none; width: min(100%, 1200px); }
 .reel.is-static .reel__cue, .reel.is-static .reel__meter { display: none; }
 .reel.is-static .reel__caption { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .reel__track { height: auto; }
-  .reel__stage { position: relative; height: clamp(320px, 62vh, 640px); }
+  .reel__stage { position: relative; height: auto; padding-block: clamp(40px, 7vh, 90px); }
+  .reel__media { max-height: none; width: min(100%, 1200px); }
   .reel__cue, .reel__meter { display: none; }
   .reel__video, .reel__still { transition: none; }
 }
-@media (max-width: 760px) { .reel__track { height: 240vh; } }
+@media (max-width: 760px) {
+  .reel__track { height: 240vh; }
+  /* Tall screens: the footage is a band, so tighten the furniture around it */
+  .reel__frame { inset: 10px; }
+  .reel__caption h2 { font-size: clamp(1.5rem, 6.4vw, 2.2rem); }
+}
 
 /* --------------------------------------------------------------------------
    30 — TESTIMONIALS

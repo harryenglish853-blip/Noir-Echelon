@@ -493,19 +493,23 @@ def home():
 <section class="reel" id="reveal" data-reel data-phase="start">
   <div class="reel__track">
     <div class="reel__stage">
-      <img class="reel__still" src="assets/img/reveal-poster.jpg"
-           alt="The Noir Echelon monogram and wordmark, lit against black"
-           width="1280" height="720" loading="lazy" decoding="async">
-      <video class="reel__video" muted playsinline preload="none" disablepictureinpicture
-             aria-hidden="true" tabindex="-1"
-             poster="assets/img/reveal-poster.jpg"
-             data-src="assets/video/reveal-1280.mp4"
-             data-src-small="assets/video/reveal-854.mp4"
-             data-webm="assets/video/reveal-1280.webm"
-             data-webm-small="assets/video/reveal-854.webm"
-             width="1280" height="720"></video>
-      <div class="reel__veil" aria-hidden="true"></div>
-      <div class="reel__frame" aria-hidden="true"></div>
+      <div class="reel__media">
+        <img class="reel__still" src="assets/img/reveal-poster.jpg"
+             alt="The Noir Echelon monogram and wordmark, lit against black"
+             width="1920" height="1080" loading="lazy" decoding="async">
+        <video class="reel__video" muted playsinline preload="none" disablepictureinpicture
+               aria-hidden="true" tabindex="-1"
+               poster="assets/img/reveal-poster.jpg"
+               data-src-small="assets/video/reveal-854.mp4"
+               data-src="assets/video/reveal-1280.mp4"
+               data-src-large="assets/video/reveal-1920.mp4"
+               data-webm-small="assets/video/reveal-854.webm"
+               data-webm="assets/video/reveal-1280.webm"
+               data-webm-large="assets/video/reveal-1920.webm"
+               width="1920" height="1080"></video>
+        <div class="reel__veil" aria-hidden="true"></div>
+        <div class="reel__frame" aria-hidden="true"></div>
+      </div>
 
       <div class="reel__caption">
         <p class="eyebrow is-in"><span class="idx">&mdash;</span> The mark</p>

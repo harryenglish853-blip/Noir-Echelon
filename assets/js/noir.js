@@ -348,10 +348,18 @@
 
     // Pick the file that suits this viewport and this decoder: VP9 where it is
     // supported (smaller), H.264 everywhere else.
-    var small = window.matchMedia('(max-width: 760px)').matches;
     var webm = video.canPlayType('video/webm; codecs="vp9"') !== '';
-    var attr = (webm ? 'data-webm' : 'data-src') + (small ? '-small' : '');
-    var source = video.getAttribute(attr) || video.getAttribute('data-src');
+    // Three tiers, chosen by how many device pixels the frame will actually
+    // occupy — a retina laptop asks for more than a phone in portrait.
+    var css = window.innerWidth || 0;
+    var device = css * (window.devicePixelRatio || 1);
+    // Phones take the small cut whatever their pixel ratio claims: the frame is
+    // never more than ~600px wide there, and the saving is most of a megabyte.
+    var tier = css <= 600 ? '-small' : (device >= 1800 ? '-large' : '');
+    var attr = (webm ? 'data-webm' : 'data-src') + tier;
+    var source = video.getAttribute(attr) ||
+                 video.getAttribute(webm ? 'data-webm' : 'data-src') ||
+                 video.getAttribute('data-src');
 
     var loaded = false;
     var ready = false;

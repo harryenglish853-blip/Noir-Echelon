@@ -147,7 +147,16 @@ the scroll distance, the stage pins inside it, and the visitor's scroll position
 drives `currentTime` — the video never plays itself. It is encoded with a
 keyframe every 8 frames so seeking is cheap, served as VP9 to browsers that take
 it and H.264 to the rest, and fetched only when the section is within one and a
-half screens. Reduced motion, a saver connection or no video support collapses
+half screens.
+
+The footage is never cropped. `.reel__media` carries the video's own 16:9 ratio
+and grows until whichever dimension runs out first, so the complete lockup is
+visible from an ultrawide desktop to a phone in portrait — the black around it on
+tall screens is letterbox, not a mistake, and it reads as one field because the
+footage is black too. Three source tiers are chosen from how many device pixels
+the frame will actually occupy (1920 / 1280 / 854), with phones pinned to the
+small cut whatever their pixel ratio claims, to save close to a megabyte on
+cellular. Reduced motion, a saver connection or no video support collapses
 the track and shows the poster still instead, costing nothing.
 
 Note for hosting: seeking requires HTTP range requests. Every real static host
