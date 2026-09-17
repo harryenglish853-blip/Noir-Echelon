@@ -22,13 +22,17 @@ code. The "The result" chapters describe **what shipped**, not what it earned â€
 each one carries an HTML comment marking where evidenced figures go. Do not add
 numbers you cannot show a client.
 
+Cards and case-study figures are **screenshots of the running sites**, captured
+by building and serving each project locally â€” not mockups, and not stock.
+
 Two things worth doing when you have them:
 
-- **Screenshots of the live sites.** The cards currently use each project's own
-  photography, which is real but shows the subject rather than the interface.
-  Actual screenshots would show the work itself.
 - **Live links.** If the sites are public, the cards can link out to them
   alongside the case study.
+- **Quik Burrito photography.** That repo ships one real food photo (the birria
+  tacos). Every other image slot renders a blur placeholder, which is visible in
+  the screenshot. Real photography improves that site and this portfolio card at
+  the same time.
 
 Artwork lives in `assets/img/work/` and is referenced by the `img` key in
 `PROJECTS` (`tools/content.py`).

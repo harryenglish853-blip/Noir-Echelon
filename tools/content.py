@@ -43,7 +43,7 @@ PROJECTS = [
                    "scroll-scrubbed journey through the food, the kitchen and the people, "
                    "ending on the order button.",
         "img": "quik-burrito-cover.jpg",
-        "alt": "Birria tacos pulled apart over consommé, from the Quik Burrito site",
+        "alt": "The Quik Burrito homepage — Big Flavor. Made Quik. — with Order Online in the first frame",
     },
     {
         "slug": "pho-thanh",
@@ -56,7 +56,7 @@ PROJECTS = [
                    "so that scrolling takes the bowl apart and puts the whole menu within "
                    "reach underneath it.",
         "img": "pho-thanh-cover.jpg",
-        "alt": "A bowl of ph\u1edf suspended mid-air, beef and garnishes lifting away from the broth",
+        "alt": "The Ph\u1edf Th\u00e0nh homepage, the bowl suspended mid-air above the hours and menu links",
     },
     {
         "slug": "ol-clip-joint",
@@ -69,7 +69,7 @@ PROJECTS = [
                    "until the barber says so. Nothing on the site can put a client in the "
                    "chair on its own.",
         "img": "ol-clip-joint-cover.jpg",
-        "alt": "A hot-towel shave in progress at The Ol' Clip Joint in Phoenix",
+        "alt": "The Ol' Clip Joint homepage — Classic Cuts. Late Hours. Phoenix. — over the shop counter",
     },
 ]
 
@@ -1109,13 +1109,16 @@ CASES = {
             ("Scope", "Website, menu, locations, reviews"),
             ("Year", "2026"),
         ],
-        "figures": {1: ("quik-burrito-brand.jpg", "The mark, carried through every page", 1200, 750)},
+        "figures": {
+            1: ("quik-burrito-menu.jpg", "The menu section, mid-scroll", 1400, 875),
+            3: ("quik-burrito-brand.jpg", "The mark, carried through every page", 1200, 750),
+        },
         "chapters": [
             ("The client",
              "A burrito shop in Anthem, Arizona.",
-             ["Quik Burrito sells food that photographs extraordinarily well and, like most "
-              "independent restaurants, was competing for attention against delivery apps "
-              "whose entire business is being one tap away."]),
+             ["Quik Burrito sells Mexican food built to order and wrapped fast, out of "
+              "Anthem, Arizona. Like most independent restaurants it was competing for "
+              "attention against delivery apps whose entire business is being one tap away."]),
             ("The brief",
              "One job, stated plainly.",
              ["The site has a single job: make somebody hungry, then get them to order "
@@ -1161,7 +1164,7 @@ CASES = {
             ("Scope", "Single-page site, full menu system"),
             ("Year", "2026"),
         ],
-        "figures": {},
+        "figures": {1: ("pho-thanh-scene.jpg", "Mid-scroll: the bowl coming apart", 1400, 875)},
         "chapters": [
             ("The client",
              "A family restaurant on West Camelback.",
@@ -1223,15 +1226,16 @@ CASES = {
             ("Year", "2026"),
         ],
         "figures": {
-            1: ("ol-clip-joint-detail.jpg", "Classic cuts, late hours", 1200, 671),
-            3: ("ol-clip-joint-film.jpg", "The shop, shot on location", 1200, 675),
+            1: ("ol-clip-joint-book.jpg", "Three ways onto the book \u2014 call, text, or request online", 1400, 875),
+            3: ("ol-clip-joint-detail.jpg", "Classic cuts, late hours", 1200, 671),
         },
         "chapters": [
             ("The client",
              "Classic cuts, late hours.",
              ["The Ol&rsquo; Clip Joint sits at 5620 N 7th Street in Phoenix, and Matt runs "
-              "the chair. Late hours are part of the offer, which means the booking "
-              "questions arrive at all hours too."]),
+              "the chair. Classic cuts, walk-ins welcome, cash only, and open till 11:30 "
+              "every night of the week &mdash; which means the booking questions arrive at "
+              "all hours too."]),
             ("The challenge",
              "Booking software books people. Barbers decide.",
              ["Off-the-shelf booking tools will happily put a stranger in the chair at 9 PM "
