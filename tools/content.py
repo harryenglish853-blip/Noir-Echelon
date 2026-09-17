@@ -222,7 +222,7 @@ def testimonials_block():
 
 SERVICE_OPTIONS = ["Web Design", "Web Development", "Digital Marketing",
                    "Local SEO", "Website Management", "Something else"]
-INVESTMENT_OPTIONS = ["Under £10k", "£10k – £25k", "£25k – £60k", "£60k +",
+INVESTMENT_OPTIONS = ["Under $10k", "$10k – $25k", "$25k – $60k", "$60k +",
                       "Monthly retainer", "Not sure yet"]
 
 
