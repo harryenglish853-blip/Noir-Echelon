@@ -8,13 +8,12 @@ and commitments that do not exist yet. Work through this list first.
 
 ## 1. The portfolio — real, and sourced
 
-The three projects are now genuine client work, written from the project
-repositories rather than invented:
+The portfolio is genuine client work, written from the project repositories
+rather than invented:
 
 | Project | Source |
 |---|---|
 | Quik Burrito — Anthem, AZ | `harryenglish853-blip/Quik-Burrito-KaLeb-Owner`, branch `claude/quik-burrito-website-y8jtv1` |
-| Phở Thành — Phoenix, AZ | `harryenglish853-blip/pho`, `main` |
 | The Ol' Clip Joint — Phoenix, AZ | `harryenglish853-blip/pho`, branch `claude/ol-clip-joint-appointments-qkr1n1` |
 
 Every claim in the case studies traces to those repositories' own READMEs and

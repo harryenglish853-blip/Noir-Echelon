@@ -46,19 +46,6 @@ PROJECTS = [
         "alt": "The Quik Burrito homepage — Big Flavor. Made Quik. — with Order Online in the first frame",
     },
     {
-        "slug": "pho-thanh",
-        "key": "pho-thanh",
-        "name": "Ph&#7903; Th&agrave;nh",
-        "sector": "Vietnamese restaurant &middot; Phoenix",
-        "scope": "Single-page scroll story &amp; full menu system",
-        "year": "2026",
-        "summary": "One photograph, layered on itself and masked ingredient by ingredient, "
-                   "so that scrolling takes the bowl apart and puts the whole menu within "
-                   "reach underneath it.",
-        "img": "pho-thanh-cover.jpg",
-        "alt": "The Ph\u1edf Th\u00e0nh homepage, the bowl suspended mid-air above the hours and menu links",
-    },
-    {
         "slug": "ol-clip-joint",
         "key": "ol-clip-joint",
         "name": "The Ol&rsquo; Clip Joint",
@@ -100,6 +87,24 @@ def work_item(p, root="", tall=False, index="01"):
     </div>
   </a>
 </article>"""
+
+
+def work_list(root="", projects=None):
+    """Lay the portfolio out for whatever number of projects exists.
+
+    An even count pairs up; an odd count leads with one full-width feature and
+    pairs the rest. That way adding or removing a client never breaks the grid.
+    """
+    items = list(projects if projects is not None else PROJECTS)
+    if not items:
+        return ""
+    out = []
+    if len(items) % 2:
+        out.append(work_item(items.pop(0), root))
+    for i in range(0, len(items), 2):
+        pair = "".join(work_item(p, root) for p in items[i:i + 2])
+        out.append(f'<div class="work-pair">{pair}</div>')
+    return "\n".join(out)
 
 
 FAQ = [
@@ -486,11 +491,7 @@ def home():
     </div>
 
     <div class="work-list mt-xl">
-      {work_item(PROJECTS[0])}
-      <div class="work-pair">
-        {work_item(PROJECTS[1])}
-        {work_item(PROJECTS[2])}
-      </div>
+      {work_list()}
     </div>
 
     <div class="mt-xl flex between items-center wrap gap-m">
@@ -615,10 +616,7 @@ def work_index():
                        "private advisory. Positioning, design, engineering and the "
                        "marketing that followed.",
     }
-    items = "\n".join([
-        work_item(PROJECTS[0]),
-        f'<div class="work-pair">{work_item(PROJECTS[1])}{work_item(PROJECTS[2])}</div>',
-    ])
+    items = work_list()
 
     body = f"""
 <section class="page-hero">
@@ -1153,67 +1151,6 @@ CASES = {
               "<!-- Add verified commercial outcomes here once they can be evidenced. -->"]),
         ],
         "pull": "If a section did not make you hungrier or make ordering easier, it did not ship.",
-        "next": "pho-thanh",
-    },
-    "pho-thanh": {
-        "eyebrow": "Vietnamese restaurant &middot; Phoenix",
-        "headline": "One photograph,<br>taken apart by scrolling.",
-        "meta": [
-            ("Client", "Ph&#7903; Th&agrave;nh"),
-            ("Sector", "Vietnamese restaurant"),
-            ("Scope", "Single-page site, full menu system"),
-            ("Year", "2026"),
-        ],
-        "figures": {1: ("pho-thanh-scene.jpg", "Mid-scroll: the bowl coming apart", 1400, 875)},
-        "chapters": [
-            ("The client",
-             "A family restaurant on West Camelback.",
-             ["Ph&#7903; Th&agrave;nh has been serving Phoenix from 1702 W Camelback Road: "
-              "one family, one very large menu, no fuss. The menu is the business, and it "
-              "runs to well over a hundred numbered items across ph&#7903;, b&uacute;n, "
-              "com and a Kwan &amp; Wok insert."]),
-            ("The challenge",
-             "A menu that long is usually a PDF.",
-             ["The default for a restaurant with this much menu is a scanned PDF that "
-              "nobody can read on a phone. The challenge was to make the size of the menu "
-              "feel like abundance rather than homework &mdash; and to do it without a "
-              "photo library, because there was exactly one usable photograph."]),
-            ("The strategy",
-             "Spend everything on the one image you have.",
-             ["That single photograph became the whole opening. It is layered on top of "
-              "itself inside a sticky, full-viewport stage, and each layer is masked to one "
-              "ingredient &mdash; the beef slice and chopsticks, lime, jalape&ntilde;os, "
-              "chilies, basil, the broth splashes, the bowl.",
-              "Scrolling scrubs roughly 3,700 pixels of story: the garnishes fly out, the "
-              "beef lifts, the bowl comes apart, and the copy about the broth and the "
-              "kitchen reads in the gaps between."]),
-            ("The experience",
-             "Then the menu, in full, in plain text.",
-             ["Once the theatre is over the site becomes a reference. Every numbered item "
-              "is real text with jump links by section, so a customer can find item 122 on "
-              "a phone in a parking lot.",
-              "Steam is a canvas particle layer that thickens while the bowl is coming "
-              "apart and settles at the end. Pointer movement adds a small parallax to "
-              "every layer. Reduced-motion visitors get none of it &mdash; no smoothing, "
-              "no parallax, no steam."]),
-            ("The build",
-             "No framework, no build step.",
-             ["Vanilla HTML, CSS and JavaScript. The folder opens in a browser or sits on "
-              "any static host, which matters for a restaurant that should never be "
-              "dependent on a build pipeline it does not own.",
-              "The menu lives as data: a new section is an object appended to one file, "
-              "and both the menu block and its jump links render it automatically.",
-              "The printed menus disagreed with each other in several places &mdash; "
-              "handwritten prices, an insert that exists in two prints, differing hours. "
-              "Every discrepancy is documented in the repository for the restaurant to "
-              "settle rather than quietly guessed at."]),
-            ("The result",
-             "A menu you can actually use, wrapped in something worth watching.",
-             ["Shipped as a single page carrying the full menu, the scroll sequence and "
-              "the visit details, with no build step and one image.",
-              "<!-- Add verified commercial outcomes here once they can be evidenced. -->"]),
-        ],
-        "pull": "Make the size of the menu feel like abundance rather than homework.",
         "next": "ol-clip-joint",
     },
     "ol-clip-joint": {
@@ -1467,7 +1404,6 @@ def pages():
         studio(),
         contact(),
         case_study("quik-burrito"),
-        case_study("pho-thanh"),
         case_study("ol-clip-joint"),
         privacy(),
         not_found(),
