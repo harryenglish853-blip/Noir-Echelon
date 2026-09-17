@@ -386,6 +386,7 @@
       ready = duration > 0;
       video.pause();
       draw();
+      window.setInterval(checkStall, 700);
     });
 
     var maybeLoad = function () {
@@ -422,24 +423,33 @@
       return p < 0.26 ? 'start' : (p < 0.78 ? 'mid' : 'end');
     };
 
-    var stalled = 0;
+    var askedAt = 0;
     var frozen = false;
+
+    // Seeking can fail outright — a host that does not answer range requests,
+    // or a browser that refuses. Detect it on wall-clock time rather than on
+    // animation frames: the easing loop stops as soon as it catches up, so a
+    // frame counter here would never reach its threshold. Checked from draw()
+    // and from a watchdog too, so it cannot be starved.
+    var checkStall = function () {
+      if (frozen || !ready) return;
+      if (target > 1 && video.currentTime < 0.25) {
+        if (!askedAt) askedAt = Date.now();
+        else if (Date.now() - askedAt > 1600) {
+          frozen = true;
+          root.classList.add('is-frozen');
+        }
+      } else {
+        askedAt = 0;
+      }
+    };
 
     var tick = function () {
       // Ease toward the scroll position so flicks feel like film, not a jump cut
       current += (target - current) * 0.16;
       if (ready && Math.abs(current - video.currentTime) > 1 / 48) {
         try { video.currentTime = current; } catch (e) {}
-        // Asking for a second or more of playhead and getting nothing back
-        // means this browser or host cannot seek; fall back gracefully.
-        if (!frozen && current > 1 && video.currentTime < 0.25) {
-          if (++stalled > 90) {
-            frozen = true;
-            root.classList.add('is-frozen');
-          }
-        } else if (video.currentTime > 0.25) {
-          stalled = 0;
-        }
+        checkStall();
       }
       if (Math.abs(target - current) > 0.004) {
         raf = window.requestAnimationFrame(tick);
@@ -457,6 +467,7 @@
       if (root.getAttribute('data-phase') !== ph) root.setAttribute('data-phase', ph);
       if (!ready) return;
       target = p * duration;
+      checkStall();
       if (!raf) raf = window.requestAnimationFrame(tick);
     };
 
