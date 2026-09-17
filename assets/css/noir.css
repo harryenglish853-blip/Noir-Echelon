@@ -1462,7 +1462,22 @@ ul, ol { list-style: none; }
 .field--line select option { background: var(--noir-2); color: var(--bone); }
 .paper .field--line select option { background: var(--paper); color: var(--paper-ink); }
 
-.enquiry-send { --btn-bd: var(--accent); }
+/* This is the page's primary action, so it gets the primary treatment —
+   solid champagne, the largest tap target on the page, impossible to read
+   as a caption. */
+.enquiry-send {
+  --btn-bg: var(--accent);
+  --btn-fg: var(--on-accent);
+  --btn-bd: var(--accent);
+  padding: 22px 38px;
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+}
+.enquiry-send::before { background: var(--bone); transform: translateY(-101%); }
+.enquiry-send:hover,
+.enquiry-send:focus-visible { color: var(--on-accent); border-color: var(--bone); }
+.paper .enquiry-send { --btn-bg: var(--paper-ink); --btn-fg: var(--paper); --btn-bd: var(--paper-ink); }
+
 .enquiry__foot {
   margin-top: clamp(38px, 5vw, 62px);
   padding-top: clamp(28px, 3.4vw, 44px);
@@ -1472,7 +1487,13 @@ ul, ol { list-style: none; }
 }
 .enquiry__note {
   color: var(--fg-3); font-size: var(--fs-small);
-  line-height: 1.6; max-width: 46ch;
+  line-height: 1.6; max-width: 42ch;
+}
+/* On a phone the send action spans the column: nothing to hunt for */
+@media (max-width: 680px) {
+  .enquiry__foot { gap: 22px; }
+  .enquiry-send { width: 100%; justify-content: space-between; padding: 20px 26px; }
+  .enquiry__note { max-width: none; }
 }
 .enquiry__status {
   margin-top: 18px; font-size: var(--fs-small);

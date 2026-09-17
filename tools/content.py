@@ -273,13 +273,14 @@ def enquiry_form(root=""):
       </div>
 
       <div class="enquiry__foot">
-        <button class="btn enquiry-send" type="submit" data-magnetic="0.18">
+        <button class="btn enquiry-send" type="submit" data-magnetic="0.18"
+                aria-describedby="enquiry-note">
           <span class="enquiry-send__label">Send inquiry</span>{ARROW}
         </button>
-        <p class="enquiry__note">
-          Send prepares your inquiry so it can be copied or opened in your email
-          app. Add your business receiving email before launch for automatic
-          delivery.
+        <p class="enquiry__note" id="enquiry-note">
+          Press Send, or hit Enter from any field. Your inquiry is prepared so it
+          can be copied or opened in your email app &mdash; add your business
+          receiving email before launch for automatic delivery.
         </p>
       </div>
       <p class="enquiry__status" role="status" aria-live="polite"></p>
