@@ -75,20 +75,44 @@
       io.observe(t);
     });
 
-    // The observer's first pass runs before webfonts settle the layout, so
-    // anything already on screen is revealed explicitly. A visitor who never
-    // scrolls still sees a finished page.
+    // The observer is the fast path, but it cannot be relied on alone: its
+    // first pass runs before webfonts settle the layout, and it has proved
+    // unreliable for elements scrolled into view in one jump. This sweep is
+    // the guarantee — throttled to a frame, skipping anything already shown,
+    // and it removes itself once every target has been revealed.
+    var pending = targets.slice();
+    var ticking = false;
+
     var sweep = function () {
       var h = window.innerHeight || document.documentElement.clientHeight;
-      targets.forEach(function (t) {
-        if (t.classList.contains('is-in')) return;
+      var still = [];
+      for (var i = 0; i < pending.length; i++) {
+        var t = pending[i];
+        if (t.classList.contains('is-in')) continue;
         var r = t.getBoundingClientRect();
         if (r.top < h * 0.94 && r.bottom > 0) {
           t.classList.add('is-in');
           io.unobserve(t);
+        } else {
+          still.push(t);
         }
-      });
+      }
+      pending = still;
+      if (!pending.length) {
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+      ticking = false;
     };
+
+    var onScroll = function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(sweep);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
     window.addEventListener('load', sweep);
     window.setTimeout(sweep, 500);
     if (document.fonts && document.fonts.ready) {
@@ -300,155 +324,121 @@
   }
 
   /* ----------------------------------------------------------------------
-     Inquiry wizard
+     Single-screen inquiry
+     Posts to an endpoint when one is configured. Until then it composes the
+     inquiry as an email and copies it, so the form is useful before launch
+     rather than quietly doing nothing.
      ---------------------------------------------------------------------- */
-  function wizard() {
-    var form = $('#inquiry-form');
-    if (!form) return;
+  function enquiry() {
+    $$('.enquiry-form').forEach(function (form) {
+      var status = $('.enquiry__status', form);
+      var button = $('.enquiry-send', form);
+      var label = $('.enquiry-send__label', button);
 
-    var panels = $$('.step-panel', form);
-    var dots = $$('.progress__dot');
-    var bar = $('.progress__bar i');
-    var backBtn = $('.wizard-back', form);
-    var nextBtn = $('.wizard-next', form);
-    var live = $('#wizard-live');
-    var done = $('.inquiry-done');
-    var index = 0;
-
-    var show = function (i, announce) {
-      index = Math.max(0, Math.min(panels.length - 1, i));
-      panels.forEach(function (p, n) { p.classList.toggle('is-active', n === index); });
-      dots.forEach(function (d, n) {
-        d.classList.toggle('is-active', n === index);
-        d.classList.toggle('is-done', n < index);
-      });
-      if (bar) bar.style.width = (((index + 1) / panels.length) * 100) + '%';
-      if (backBtn) backBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
-      if (nextBtn) {
-        var last = index === panels.length - 1;
-        $('.wizard-next__label', nextBtn).textContent = last ? 'Send inquiry' : 'Continue';
-      }
-      if (announce && live) {
-        live.textContent = 'Step ' + (index + 1) + ' of ' + panels.length;
-      }
-      var focusable = $('input:not([type="radio"]), textarea, input[type="radio"]', panels[index]);
-      if (focusable && announce) window.setTimeout(function () { focusable.focus({ preventScroll: true }); }, 220);
-    };
-
-    var validate = function (panel) {
-      var ok = true;
-
-      // Required choice groups
-      var group = panel.getAttribute('data-requires-choice');
-      if (group) {
-        var chosen = form.querySelector('input[name="' + group + '"]:checked');
-        var err = $('.field__err[data-for="' + group + '"]', panel);
-        if (!chosen) {
-          ok = false;
-          if (err) err.style.display = 'block';
-        } else if (err) {
-          err.style.display = 'none';
-        }
-      }
-
-      // Required text inputs
-      $$('[data-required]', panel).forEach(function (input) {
-        var field = input.closest('.field');
-        var value = input.value.trim();
-        var valid = value.length > 0;
-        if (valid && input.type === 'email') {
-          valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
-        }
-        if (field) field.classList.toggle('has-error', !valid);
-        if (!valid) ok = false;
+      // Selects read as placeholder text until something is chosen
+      $$('select', form).forEach(function (sel) {
+        var sync = function () { sel.classList.toggle('has-value', !!sel.value); };
+        sel.addEventListener('change', sync);
+        sync();
       });
 
-      // Consent
-      var consent = $('.consent input[required]', panel);
-      if (consent && !consent.checked) {
-        ok = false;
-        var cErr = $('.field__err[data-for="consent"]', panel);
-        if (cErr) cErr.style.display = 'block';
-      }
-
-      if (!ok && live) live.textContent = 'Please complete the highlighted fields.';
-      return ok;
-    };
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', function () {
-        if (!validate(panels[index])) return;
-        if (index < panels.length - 1) { show(index + 1, true); return; }
-        submit();
+      $$('input, textarea, select', form).forEach(function (input) {
+        input.addEventListener('input', function () {
+          var field = input.closest('.field--line');
+          if (field) field.classList.remove('has-error');
+        });
       });
-    }
-    if (backBtn) {
-      backBtn.addEventListener('click', function () { show(index - 1, true); });
-    }
 
-    // Selecting a card advances the qualifying steps
-    $$('.option input[type="radio"]', form).forEach(function (input) {
-      input.addEventListener('change', function () {
-        var panel = input.closest('.step-panel');
-        if (!panel || !panel.hasAttribute('data-autoadvance')) return;
-        window.setTimeout(function () {
-          if (panels.indexOf(panel) === index && index < panels.length - 1) show(index + 1, true);
-        }, 340);
-      });
-    });
-
-    form.addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter') return;
-      var t = e.target;
-      if (t.tagName === 'TEXTAREA') return;
-      e.preventDefault();
-      if (nextBtn) nextBtn.click();
-    });
-
-    // Clear error state as the visitor types
-    $$('input, textarea', form).forEach(function (input) {
-      input.addEventListener('input', function () {
-        var field = input.closest('.field');
-        if (field) field.classList.remove('has-error');
-      });
-    });
-
-    function submit() {
-      var endpoint = form.getAttribute('data-endpoint');
-      var data = new FormData(form);
-      var finish = function () {
-        panels.forEach(function (p) { p.classList.remove('is-active'); });
-        dots.forEach(function (d) { d.classList.remove('is-active'); d.classList.add('is-done'); });
-        if (bar) bar.style.width = '100%';
-        var wrap = $('.wizard-shell');
-        if (wrap) wrap.style.display = 'none';
-        if (done) done.classList.add('is-active');
-        if (live) live.textContent = 'Inquiry sent. We reply within one business day.';
-        done.setAttribute('tabindex', '-1');
-        done.focus({ preventScroll: true });
+      var say = function (message, state) {
+        if (!status) return;
+        status.textContent = message;
+        status.setAttribute('data-state', state || 'info');
       };
 
-      if (!endpoint) { finish(); return; }
-
-      nextBtn.setAttribute('disabled', 'disabled');
-      $('.wizard-next__label', nextBtn).textContent = 'Sending…';
-
-      fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
-        .then(function (res) {
-          if (!res.ok) throw new Error('Request failed');
-          finish();
-        })
-        .catch(function () {
-          nextBtn.removeAttribute('disabled');
-          $('.wizard-next__label', nextBtn).textContent = 'Send inquiry';
-          if (live) live.textContent = 'Something went wrong. Please email studio@noirechelon.com.';
-          var fallback = $('.wizard-error');
-          if (fallback) fallback.hidden = false;
+      var validate = function () {
+        var ok = true;
+        var first = null;
+        $$('[data-required]', form).forEach(function (input) {
+          var value = input.value.trim();
+          var valid = value.length > 0;
+          if (valid && input.type === 'email') {
+            valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+          }
+          var field = input.closest('.field--line');
+          if (field) field.classList.toggle('has-error', !valid);
+          if (!valid) { ok = false; if (!first) first = input; }
         });
-    }
+        if (!ok) {
+          say('Please complete the highlighted fields.', 'error');
+          if (first) first.focus({ preventScroll: false });
+        }
+        return ok;
+      };
 
-    form.addEventListener('submit', function (e) { e.preventDefault(); });
-    show(0, false);
+      var transcript = function () {
+        var lines = [];
+        $$('input, textarea, select', form).forEach(function (input) {
+          if (!input.name || !input.value.trim()) return;
+          var field = input.closest('.field--line');
+          var name = field && $('label', field) ? $('label', field).textContent.trim() : input.name;
+          lines.push(name + ': ' + input.value.trim());
+        });
+        return lines.join('\n');
+      };
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validate()) return;
+
+        var endpoint = form.getAttribute('data-endpoint');
+        var body = transcript();
+        var company = (form.querySelector('[name="company"]') || {}).value || '';
+        var subject = 'Project inquiry' + (company ? ' — ' + company.trim() : '');
+
+        if (endpoint) {
+          button.setAttribute('disabled', 'disabled');
+          label.textContent = 'Sending…';
+          say('Sending your inquiry…');
+          fetch(endpoint, {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { Accept: 'application/json' }
+          }).then(function (res) {
+            if (!res.ok) throw new Error('failed');
+            form.reset();
+            $$('select', form).forEach(function (s) { s.classList.remove('has-value'); });
+            label.textContent = 'Inquiry sent';
+            say('Received — a senior person replies within one business day.');
+          }).catch(function () {
+            button.removeAttribute('disabled');
+            label.textContent = 'Send inquiry';
+            say('That did not send. Email ' + (form.getAttribute('data-mailto') || '') + ' instead.', 'error');
+          });
+          return;
+        }
+
+        // No endpoint yet: hand the visitor a ready-to-send email.
+        var to = form.getAttribute('data-mailto') || '';
+        var href = 'mailto:' + to +
+          '?subject=' + encodeURIComponent(subject) +
+          '&body=' + encodeURIComponent(body);
+
+        var opened = false;
+        try { window.location.href = href; opened = true; } catch (err) {}
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(body).then(function () {
+            say(opened
+              ? 'Your email app should open with this inquiry ready to send — a copy is on your clipboard.'
+              : 'Your inquiry is copied to the clipboard. Paste it into an email to ' + to + '.');
+          }).catch(function () {
+            say('Your email app should open with this inquiry ready to send.');
+          });
+        } else {
+          say('Your email app should open with this inquiry ready to send.');
+        }
+      });
+    });
   }
 
   /* ----------------------------------------------------------------------
@@ -466,7 +456,7 @@
     menu();
     reveals();
     accordion();
-    wizard();
+    enquiry();
     year();
     depth();
     magnetic();

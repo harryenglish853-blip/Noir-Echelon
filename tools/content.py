@@ -187,6 +187,106 @@ def process_block():
 
 
 # ---------------------------------------------------------------------------
+# Client experience
+# ---------------------------------------------------------------------------
+# PLACEHOLDER CONTENT — these two cards are written as placeholders on purpose.
+# Replace them with verified reviews from real clients, or delete the section.
+# Never publish an invented testimonial.
+
+TESTIMONIALS = [
+    ("Client testimonial placeholder. Replace this with a verified review from a "
+     "real Noir Echelon client.", "Client name", "Business name"),
+    ("Client testimonial placeholder. Use this area for a specific result, "
+     "experience, or transformation.", "Client name", "Business name"),
+]
+
+
+def testimonials_block():
+    cards = ""
+    for text, name, biz in TESTIMONIALS:
+        cards += f"""
+      <figure class="quote" data-reveal>
+        <span class="quote__mark" aria-hidden="true">&ldquo;</span>
+        <blockquote class="quote__text">{text}</blockquote>
+        <figcaption class="quote__who">
+          <p class="quote__name">{name}</p>
+          <p class="quote__biz">{biz}</p>
+        </figcaption>
+      </figure>"""
+    return f'<div class="quotes" data-stagger="120">{cards}\n    </div>'
+
+
+# ---------------------------------------------------------------------------
+# Inquiry form
+# ---------------------------------------------------------------------------
+
+SERVICE_OPTIONS = ["Web Design", "Web Development", "Digital Marketing",
+                   "Local SEO", "Website Management", "Something else"]
+INVESTMENT_OPTIONS = ["Under £10k", "£10k – £25k", "£25k – £60k", "£60k +",
+                      "Monthly retainer", "Not sure yet"]
+
+
+def select_field(name, label, placeholder, options):
+    opts = "".join(f'<option value="{o}">{o}</option>' for o in options)
+    return f"""
+        <div class="field--line">
+          <label for="{name}">{label}</label>
+          <select id="{name}" name="{name}">
+            <option value="" selected>{placeholder}</option>
+            {opts}
+          </select>
+        </div>"""
+
+
+def enquiry_form(root=""):
+    """The single-screen inquiry. Set data-endpoint to post it somewhere."""
+    return f"""
+    <form class="enquiry enquiry-form" novalidate data-endpoint="" data-mailto="{EMAIL}">
+      <div class="enquiry__grid">
+        <div class="field--line">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" autocomplete="name"
+                 placeholder="Your name" data-required>
+        </div>
+        <div class="field--line">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" autocomplete="organization"
+                 placeholder="Business name">
+        </div>
+        <div class="field--line">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email"
+                 placeholder="you@company.com" data-required>
+        </div>
+        <div class="field--line">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel"
+                 placeholder="(000) 000-0000">
+        </div>
+        {select_field('service', 'Service', 'Select a service', SERVICE_OPTIONS)}
+        {select_field('investment', 'Investment', 'Select range', INVESTMENT_OPTIONS)}
+        <div class="field--line enquiry__full">
+          <label for="project">Tell us about your project</label>
+          <textarea id="project" name="project" rows="4" data-required
+                    placeholder="What are you trying to build, improve, or grow?"></textarea>
+        </div>
+      </div>
+
+      <div class="enquiry__foot">
+        <button class="btn enquiry-send" type="submit" data-magnetic="0.18">
+          <span class="enquiry-send__label">Send inquiry</span>{ARROW}
+        </button>
+        <p class="enquiry__note">
+          Send prepares your inquiry so it can be copied or opened in your email
+          app. Add your business receiving email before launch for automatic
+          delivery.
+        </p>
+      </div>
+      <p class="enquiry__status" role="status" aria-live="polite"></p>
+    </form>"""
+
+
+# ---------------------------------------------------------------------------
 # Capabilities
 # ---------------------------------------------------------------------------
 
@@ -253,6 +353,7 @@ def home():
                        "for businesses that refuse to look ordinary. Web design, development, "
                        "marketing and local SEO.",
         "schema": ORG_SCHEMA,
+        "cta": False,
     }
 
     body = f"""
@@ -389,29 +490,46 @@ def home():
   </div>
 </section>
 
-<section class="section paper" id="why">
+<section class="section" id="about">
   <div class="shell">
-    {eyebrow('&mdash;', 'Why Noir Echelon')}
-    <div class="grid mt-l">
+    <div class="plate" data-reveal="mask">
+      <img src="assets/img/brand-hero.png"
+           srcset="assets/img/brand-hero-760.png 760w, assets/img/brand-hero.png 1400w"
+           sizes="(max-width: 900px) 100vw, 88vw"
+           alt="The Noir Echelon monogram and wordmark, lit against black"
+           width="1400" height="933" loading="lazy" decoding="async">
+    </div>
+
+    <div class="grid mt-xl">
       <div class="col-6">
-        <h2 class="centred__title" style="text-align:left;margin-inline:0;max-width:18ch" data-reveal>
-          We don't design for other designers. <em>We design for your customers.</em>
+        {eyebrow('&mdash;', 'About Noir Echelon')}
+        <h2 class="centred__title mt-m" style="text-align:left;margin-inline:0;max-width:14ch" data-reveal>
+          We don't build <em>just another website.</em>
         </h2>
       </div>
       <div class="col-5 start-8" data-reveal style="--d:120ms">
         <p class="body-copy">
-          Awards are pleasant. Revenue is the point. Everything we make is judged
-          against a simple question: does it make the right person more likely to
-          choose you, and less likely to negotiate on price?
+          Noir Echelon was built around one idea: businesses should not have to
+          settle for digital experiences that look like everyone else's.
         </p>
         <p class="body-copy">
-          That is why strategy, design, engineering and marketing sit in the same
-          room here. A beautiful site nobody finds is a portfolio piece. A site
-          that ranks but looks improvised is a discount waiting to happen.
+          We combine strategy, premium design, technology and marketing to elevate
+          how your business is perceived &mdash; and how effectively it converts.
         </p>
+        <a class="link mt-m" href="#start">Work with Noir Echelon {ARROW}</a>
       </div>
     </div>
     {facts_block()}
+  </div>
+</section>
+
+<section class="section paper" id="clients">
+  <div class="shell">
+    {eyebrow('&mdash;', 'Client experience')}
+    <h2 class="centred__title mt-m" style="text-align:left;margin-inline:0;max-width:18ch" data-reveal>
+      Proof should feel <em>as strong as the promise.</em>
+    </h2>
+    {testimonials_block()}
   </div>
 </section>
 
@@ -430,6 +548,21 @@ def home():
         {faq_block()}
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section" id="start">
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="shell" style="position:relative;z-index:2">
+    {eyebrow('&mdash;', 'Start a project')}
+    <h2 class="centred__title mt-m" style="text-align:left;margin-inline:0;max-width:14ch" data-reveal>
+      Your next level <em>starts here.</em>
+    </h2>
+    <p class="lead mt-m" data-reveal style="--d:120ms;max-width:52ch">
+      Tell us what you're building. We'll help shape a digital presence that
+      reflects the quality of your business.
+    </p>
+    {enquiry_form()}
   </div>
 </section>"""
     return meta, body
@@ -848,17 +981,11 @@ def contact():
         "path": "contact.html",
         "active": "contact.html",
         "title": "Start a Project — Noir Echelon",
-        "description": "Tell us about the project. Five short questions, about sixty "
-                       "seconds, and a reply within one business day.",
+        "description": "Tell us what you're building. We'll help shape a digital "
+                       "presence that reflects the quality of your business, and reply "
+                       "within one business day.",
         "cta": False,
     }
-
-    dots = ""
-    for i in range(1, 6):
-        cls = "progress__dot is-active" if i == 1 else "progress__dot"
-        dots += f'<span class="{cls}">0{i}</span>'
-        if i < 5:
-            dots += '<span class="progress__line" aria-hidden="true"></span>'
 
     body = f"""
 <section class="page-hero">
@@ -867,7 +994,17 @@ def contact():
     <p class="eyebrow is-in"><span class="idx">&mdash;</span> Start a project</p>
     <div class="grid page-hero__title">
       <div class="col-9">
-        <h1 class="h1 is-in">{lines('Tell us what', 'needs to change.')}</h1>
+        <h1 class="hero__title--brand is-in">
+          {lines("Your next level", "<em>starts here.</em>")}
+        </h1>
+      </div>
+    </div>
+    <div class="grid mt-m">
+      <div class="col-6">
+        <p class="lead" data-reveal style="--d:300ms">
+          Tell us what you're building. We'll help shape a digital presence that
+          reflects the quality of your business.
+        </p>
       </div>
     </div>
   </div>
@@ -875,158 +1012,43 @@ def contact():
 
 <section class="section section--tight">
   <div class="shell">
-    <div class="rule"></div>
+    {enquiry_form()}
 
-    <div class="inquiry mt-xl">
-      <div class="inquiry__rail">
-        <p class="micro dim">Inquiry</p>
-        <div class="progress" aria-hidden="true">{dots}</div>
-        <div class="progress__bar" aria-hidden="true"><i></i></div>
-        <p class="dim mt-m" style="font-size:var(--fs-small);max-width:26ch">
-          Five questions, about sixty seconds. A senior person reads every one.
-        </p>
-
-        <div class="direct mt-l">
+    <div class="grid mt-xl">
+      <div class="col-4">
+        <div class="direct">
           <div class="direct__row">
             <h2>Prefer email</h2>
             <a href="mailto:{EMAIL}">{EMAIL}</a>
           </div>
+          <div class="direct__row">
+            <h2>Response time</h2>
+            <p>Within one business day</p>
+          </div>
         </div>
       </div>
-
-      <div class="inquiry__main">
-        <p class="sr-only" id="wizard-live" role="status" aria-live="polite"></p>
-
-        <form id="inquiry-form" class="wizard-shell" novalidate
-              data-endpoint=""
-              action="mailto:{EMAIL}" method="post" enctype="text/plain">
-
-          <div class="step-panel is-active" data-requires-choice="project" data-autoadvance>
-            <p class="micro gold">Step 01</p>
-            <h2 class="step-panel__q mt-s">What can we build for you?</h2>
-            <p class="step-panel__hint">Choose the closest fit. We will refine it together.</p>
-            {options('project', STEP_ONE)}
-            <p class="field__err" data-for="project">Please choose one to continue</p>
+      <div class="col-7 start-6">
+        <div class="rows" data-stagger="80">
+          <div class="row-link" data-reveal style="cursor:default">
+            <span class="row-link__idx">01</span>
+            <span class="row-link__name">We read it properly</span>
+            <span class="row-link__desc">Within one business day you hear from a senior person, not an
+            automated sequence. If we are not right for the work, we say so and point you elsewhere.</span>
+            <span class="row-link__arrow"></span>
           </div>
-
-          <div class="step-panel">
-            <p class="micro gold">Step 02</p>
-            <h2 class="step-panel__q mt-s">Tell us about the business.</h2>
-            <p class="step-panel__hint">What you do, who buys it, and what is not working right now.</p>
-            <div class="field">
-              <label for="company">Company</label>
-              <input type="text" id="company" name="company" autocomplete="organization"
-                     placeholder="Company name" data-required>
-              <p class="field__err">Please add your company name</p>
-            </div>
-            <div class="field">
-              <label for="brief">The situation</label>
-              <textarea id="brief" name="brief" rows="5" data-required
-                        placeholder="We sell ... our customers are ... the current site ..."></textarea>
-              <p class="field__err">A sentence or two is plenty</p>
-            </div>
+          <div class="row-link" data-reveal style="cursor:default">
+            <span class="row-link__idx">02</span>
+            <span class="row-link__name">A short call</span>
+            <span class="row-link__desc">Thirty to forty-five minutes on your business, the constraints and
+            what success would actually look like. Prepared for, and free.</span>
+            <span class="row-link__arrow"></span>
           </div>
-
-          <div class="step-panel" data-requires-choice="budget" data-autoadvance>
-            <p class="micro gold">Step 03</p>
-            <h2 class="step-panel__q mt-s">What are you looking to invest?</h2>
-            <p class="step-panel__hint">An honest range helps us propose work that is actually buildable.</p>
-            {options('budget', STEP_BUDGET)}
-            <p class="field__err" data-for="budget">Please choose a range to continue</p>
-          </div>
-
-          <div class="step-panel" data-requires-choice="timing" data-autoadvance>
-            <p class="micro gold">Step 04</p>
-            <h2 class="step-panel__q mt-s">When would you like to launch?</h2>
-            <p class="step-panel__hint">We take on a limited number of projects at a time.</p>
-            {options('timing', STEP_TIMING)}
-            <p class="field__err" data-for="timing">Please choose a timeframe to continue</p>
-          </div>
-
-          <div class="step-panel">
-            <p class="micro gold">Step 05</p>
-            <h2 class="step-panel__q mt-s">Your details.</h2>
-            <p class="step-panel__hint">A senior person replies within one business day.</p>
-            <div class="field-row">
-              <div class="field">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" autocomplete="name" placeholder="Full name" data-required>
-                <p class="field__err">Please add your name</p>
-              </div>
-              <div class="field">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" autocomplete="email"
-                       placeholder="you@company.com" data-required>
-                <p class="field__err">Please add a valid email address</p>
-              </div>
-            </div>
-            <div class="field">
-              <label for="phone">Phone <span class="dim">(optional)</span></label>
-              <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="Direct line">
-            </div>
-            <div class="consent">
-              <input type="checkbox" id="consent" name="consent" required>
-              <label for="consent">
-                I agree that Noir Echelon may contact me about this inquiry, and have read the
-                <a href="privacy.html">privacy notice</a>.
-              </label>
-            </div>
-            <p class="field__err" data-for="consent">Please confirm to send your inquiry</p>
-          </div>
-
-          <div class="wizard-nav">
-            <button class="btn btn--solid wizard-next" type="button" data-magnetic="0.18">
-              <span class="wizard-next__label">Continue</span>{ARROW}
-            </button>
-            <button class="wizard-back" type="button">Back</button>
-            <span class="wizard-note">No obligation &middot; No sales sequence</span>
-          </div>
-
-          <p class="field__err wizard-error" hidden>
-            Sending failed &mdash; please email {EMAIL} directly.
-          </p>
-        </form>
-
-        <div class="inquiry-done">
-          <div class="inquiry-done__mark">{STAR}</div>
-          <h2 class="h3">Received.<br>Thank you.</h2>
-          <p class="body-copy mt-m">
-            A senior person will read your inquiry and reply within one business day
-            &mdash; usually with a question or two, not a brochure.
-          </p>
-          <p class="body-copy">
-            If it is urgent, email <a class="gold" href="mailto:{EMAIL}">{EMAIL}</a>.
-          </p>
-          <a class="btn mt-l" href="work.html" data-magnetic="0.18"><span>View selected work</span>{ARROW}</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="shell">
-    <div class="grid">
-      <div class="col-5">
-        {eyebrow('&mdash;', 'What happens next')}
-        <h2 class="h3 mt-m" data-reveal>No sales sequence.<br>Just a conversation.</h2>
-      </div>
-      <div class="col-6 start-7">
-        <div class="process" data-stagger="80">
-          <div class="step" data-reveal>
-            <p class="step__num">01</p><h3 class="step__name">We read it properly</h3>
-            <p class="step__body">Within one business day you hear from a senior person, not an
-            automated sequence. If we are not right for the work, we say so and point you elsewhere.</p>
-          </div>
-          <div class="step" data-reveal>
-            <p class="step__num">02</p><h3 class="step__name">A short call</h3>
-            <p class="step__body">Thirty to forty-five minutes on your business, the constraints and
-            what success would actually look like. Prepared for, and free.</p>
-          </div>
-          <div class="step" data-reveal>
-            <p class="step__num">03</p><h3 class="step__name">A fixed proposal</h3>
-            <p class="step__body">Scope, dated milestones and a fixed price. If it is a yes, we book
-            the studio time and begin. If it is not, there is no follow-up campaign.</p>
+          <div class="row-link" data-reveal style="cursor:default">
+            <span class="row-link__idx">03</span>
+            <span class="row-link__name">A fixed proposal</span>
+            <span class="row-link__desc">Scope, dated milestones and a fixed price. If it is a yes, we book
+            the studio time and begin. If it is not, there is no follow-up campaign.</span>
+            <span class="row-link__arrow"></span>
           </div>
         </div>
       </div>

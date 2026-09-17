@@ -87,6 +87,7 @@ def head(meta, root):
 </head>
 <body class="{body_class}">
 <a class="skip-link" href="#main">Skip to content</a>
+<span id="top"></span>
 <div class="grain" aria-hidden="true"></div>"""
 
 
@@ -180,57 +181,29 @@ def footer(root):
     return f"""
 <footer class="site-foot">
   <div class="shell">
-    <div class="foot-grid">
-      <div class="foot-col foot-brand">
-        <div class="foot-brand__mark">{MONOGRAM}</div>
-        <p class="dim" style="font-size:var(--fs-small);max-width:34ch">
-          Premium web design, development and digital marketing for businesses
-          that intend to be taken seriously.
-        </p>
-        <a class="link mt-m" href="{root}contact.html">Start a project {ARROW_R}</a>
+    <div class="foot-head">
+      <div class="foot-id">
+        <span class="foot-id__mark">{MONOGRAM}</span>
+        <div>
+          <p class="foot-id__name">{BRAND}</p>
+          <p class="foot-id__tag">Web development &middot; Digital marketing</p>
+        </div>
       </div>
-
-      <div class="foot-col">
-        <h2>Studio</h2>
-        <ul>
-          <li><a href="{root}work.html">Selected work</a></li>
-          <li><a href="{root}services.html">Services</a></li>
-          <li><a href="{root}studio.html">The studio</a></li>
-          <li><a href="{root}contact.html">Contact</a></li>
-        </ul>
-      </div>
-
-      <div class="foot-col">
-        <h2>Capabilities</h2>
-        <ul>
-          <li><a href="{root}services.html#design">Web design</a></li>
-          <li><a href="{root}services.html#development">Web development</a></li>
-          <li><a href="{root}services.html#marketing">Digital marketing</a></li>
-          <li><a href="{root}services.html#seo">Local SEO</a></li>
-          <li><a href="{root}services.html#care">Website management</a></li>
-        </ul>
-      </div>
-
-      <div class="foot-col">
-        <h2>Direct</h2>
-        <ul>
-          <li><a href="mailto:{EMAIL}">{EMAIL}</a></li>
-          <li><a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a></li>
-        </ul>
-        <h2 style="margin-top:28px">Follow</h2>
-        <ul>
-          <li><a href="https://www.instagram.com/" rel="noopener me" target="_blank">Instagram</a></li>
-          <li><a href="https://www.linkedin.com/" rel="noopener me" target="_blank">LinkedIn</a></li>
-        </ul>
-      </div>
+      <a class="to-top" href="#top">Back to top <span class="arrow" aria-hidden="true">&#8593;</span></a>
     </div>
 
-    <p class="foot-wordmark" aria-hidden="true">Noir Echelon</p>
+    <div class="foot-rule" aria-hidden="true"></div>
 
-    <div class="foot-legal">
+    <div class="foot-base">
       <span>&copy; <span data-year>2026</span> {BRAND}</span>
-      <span>{TAGLINE}</span>
-      <span>Designed &amp; built in-house</span>
+      <nav aria-label="Footer">
+        <a href="{root}services.html">Services</a>
+        <a href="{root}work.html">Work</a>
+        <a href="{root}studio.html">Studio</a>
+        <a href="{root}contact.html">Contact</a>
+        <a href="{root}privacy.html">Privacy</a>
+      </nav>
+      <span class="foot-base__end">Designed to elevate</span>
     </div>
   </div>
 </footer>

@@ -59,17 +59,28 @@ Also update the Instagram and LinkedIn URLs in `footer()`, or remove those links
 
 ## 5. Wire up the inquiry form — required
 
-`contact.html` currently validates and shows its success state without sending
-anywhere. Set the endpoint on the form:
+The form appears twice (the home page's closing section and `contact.html`) and
+both are rendered from `enquiry_form()` in `tools/content.py`.
+
+Until an endpoint is set, Send composes the inquiry as an email, opens the
+visitor's mail app and copies the text to their clipboard. That is a working
+fallback, not a finished state — it depends on the visitor actually sending the
+email. Set a real endpoint before launch:
 
 ```html
-<form id="inquiry-form" data-endpoint="https://formspree.io/f/xxxxxxx" ...>
+<form class="enquiry enquiry-form" data-endpoint="https://formspree.io/f/xxxxxxx" ...>
 ```
 
-The form POSTs `FormData` and expects a 2xx response; anything else re-enables
-the button and surfaces the fallback email. Formspree, Basin, Netlify Forms or
-your own handler all work. Test a real submission before launch, and add
-server-side spam protection (honeypot or captcha) if the inbox gets noisy.
+With an endpoint set, the form POSTs `FormData` and expects a 2xx response;
+anything else re-enables the button and points at the fallback email. Formspree,
+Basin, Netlify Forms or your own handler all work. Test a real submission before
+launch, and add spam protection (honeypot or captcha) if the inbox gets noisy.
+
+## 5b. Client testimonials — required or remove
+
+The two cards in the Client Experience section are written as visible
+placeholders. Replace them with verified reviews (`TESTIMONIALS` in
+`tools/content.py`) or delete the section. Never publish an invented quote.
 
 ## 6. Privacy notice — have it reviewed
 

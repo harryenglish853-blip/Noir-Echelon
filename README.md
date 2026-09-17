@@ -43,7 +43,7 @@ index.html              Home
 work.html               Selected work
 services.html           Services + investment + FAQ
 studio.html             Studio, principles, process
-contact.html            Five-step inquiry
+contact.html            Inquiry form
 privacy.html            Privacy notice (noindex)
 404.html
 work/*.html             Case studies
@@ -94,9 +94,11 @@ page its editorial rhythm.
 **Type.** Playfair Display for display, Inter for interface. Sizes are fluid
 `clamp()` values; small capitals carry `0.26em`–`0.3em` tracking.
 
-**Motion.** Transform and opacity only. Reveals are driven by
-`IntersectionObserver` with an explicit sweep for anything already on screen, so
-a visitor who never scrolls still sees a finished page. Everything is disabled
+**Motion.** Transform and opacity only. Reveals use `IntersectionObserver` as a
+fast path with a throttled scroll sweep as the guarantee — the observer alone
+proved unreliable both before webfonts settle the layout and for elements
+scrolled into view in one jump. The sweep skips anything already shown and
+removes its own listeners once every target has fired. Everything is disabled
 under `prefers-reduced-motion`, and the magnetic buttons, parallax and custom
 cursor also switch off on coarse pointers and low-core devices.
 
@@ -120,7 +122,8 @@ cursor also switch off on coarse pointers and low-core devices.
 
 Verified in Chromium at 1440, 1280 and 390 px: no console errors, no horizontal
 overflow, no unrevealed content above the fold, and every interaction
-(menu, accordion, five-step form with validation) exercised end to end.
+(menu, accordion, inquiry form with validation) exercised end to end, and every
+reveal target confirmed to fire on a normal scroll through all ten pages.
 
 ---
 
