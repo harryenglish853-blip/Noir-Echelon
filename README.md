@@ -21,13 +21,48 @@ There is nothing to install and nothing to compile.
 
 ## Deploying it
 
-Upload the repository root as-is. `netlify.toml` carries the security headers and
-caching policy; the same values work on Vercel, Cloudflare Pages, S3 + CloudFront
-or Nginx:
+There is no build step. Any static host serves the repository root as-is.
+
+### Vercel (configured)
+
+`vercel.json` is already in the repo — security headers, caching policy, no
+framework, no build command. Two ways to ship it:
+
+**From the dashboard (recommended).** At vercel.com, *Add New → Project*, import
+`harryenglish853-blip/Noir-Echelon` and pick this branch. Framework Preset:
+**Other**. Build Command: leave empty. Output Directory: leave empty (the repo
+root is the site). Vercel reads `vercel.json` and every push redeploys.
+
+**From the CLI.**
+
+```bash
+npm i -g vercel     # or: npx vercel@latest
+vercel login
+vercel              # preview deployment
+vercel --prod       # production
+```
+
+Notes for this site specifically:
+
+- `404.html` at the root is picked up automatically as the not-found page.
+- The brand reveal scrubs by seeking, which needs HTTP range requests. Vercel
+  serves those natively — nothing to configure.
+- `cleanUrls` is deliberately **off**, so `/work.html` is served directly with no
+  redirect hop. Internal links, canonical tags and `sitemap.xml` all use the
+  `.html` form consistently. If you would rather have `/work`, set
+  `"cleanUrls": true` and say so — the links, canonicals and sitemap need
+  updating in the same pass to stay consistent.
+- `.vercelignore` keeps `tools/` and the docs out of the deployment.
+
+### Other hosts
+
+`netlify.toml` carries the same headers and caching policy, and the values below
+work on Cloudflare Pages, S3 + CloudFront or Nginx:
 
 | Path              | Cache-Control                            |
 |-------------------|------------------------------------------|
 | `/assets/fonts/*` | `public, max-age=31536000, immutable`    |
+| `/assets/video/*` | `public, max-age=31536000, immutable`    |
 | `/assets/img/*`   | `public, max-age=2592000`                |
 | `/assets/css,js/*`| `public, max-age=604800`                 |
 | `*.html`          | `public, max-age=0, must-revalidate`     |
