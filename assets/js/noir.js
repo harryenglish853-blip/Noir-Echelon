@@ -385,7 +385,6 @@
       duration = video.duration || 0;
       ready = duration > 0;
       video.pause();
-      root.classList.add('is-playing');
       draw();
     });
 

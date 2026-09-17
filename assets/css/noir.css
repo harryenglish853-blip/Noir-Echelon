@@ -1289,12 +1289,17 @@ ul, ol { list-style: none; }
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: contain;
-  opacity: 0;
   transition: opacity 700ms var(--ease);
 }
-.reel__still { opacity: 1; }
-.reel.is-playing .reel__video { opacity: 1; }
-.reel.is-playing .reel__still { opacity: 0; }
+/* The footage leads. It opens black, exactly like the media box behind it, so
+   there is nothing to reveal until the visitor scrolls. The finished lockup
+   lives in .reel__still and is shown ONLY when the video cannot run. */
+.reel__video { opacity: 1; }
+.reel__still { opacity: 0; }
+.reel.is-static .reel__still,
+.reel.is-frozen .reel__still { opacity: 1; }
+.reel.is-static .reel__video,
+.reel.is-frozen .reel__video { opacity: 0; }
 
 /* Vignette hugs the footage rather than the stage around it */
 .reel__veil {
