@@ -324,6 +324,126 @@
   }
 
   /* ----------------------------------------------------------------------
+     Scroll-scrubbed brand reveal
+     The video never plays on its own: how far you have scrolled through the
+     track IS the playhead. Loaded only when the section is close, skipped
+     entirely for reduced motion, saver connections and absent video support.
+     ---------------------------------------------------------------------- */
+  function reel() {
+    var root = $('[data-reel]');
+    if (!root) return;
+
+    var video = $('.reel__video', root);
+    var track = $('.reel__track', root);
+    var meter = $('.reel__meter i', root);
+    if (!video || !track) return;
+
+    var saveData = !!(navigator.connection && navigator.connection.saveData);
+    var canPlay = !!video.canPlayType && video.canPlayType('video/mp4') !== '';
+
+    if (reduced.matches || saveData || !canPlay) {
+      root.classList.add('is-static');
+      return;
+    }
+
+    // Pick the file that suits this viewport and this decoder: VP9 where it is
+    // supported (smaller), H.264 everywhere else.
+    var small = window.matchMedia('(max-width: 760px)').matches;
+    var webm = video.canPlayType('video/webm; codecs="vp9"') !== '';
+    var attr = (webm ? 'data-webm' : 'data-src') + (small ? '-small' : '');
+    var source = video.getAttribute(attr) || video.getAttribute('data-src');
+
+    var loaded = false;
+    var ready = false;
+    var duration = 0;
+
+    var load = function () {
+      if (loaded) return;
+      loaded = true;
+      video.src = source;
+      video.load();
+    };
+
+    video.addEventListener('loadedmetadata', function () {
+      duration = video.duration || 0;
+      ready = duration > 0;
+      video.pause();
+      root.classList.add('is-playing');
+      draw();
+    });
+
+    var maybeLoad = function () {
+      if (loaded) return;
+      var rect = track.getBoundingClientRect();
+      var h = window.innerHeight || 0;
+      // Within one and a half screens of the stage: fetch it now
+      if (rect.top < h * 1.5 && rect.bottom > -h * 0.5) load();
+    };
+
+    // Some mobile browsers will not decode until the element has been touched
+    var unlock = function () {
+      var p = video.play();
+      if (p && p.then) { p.then(function () { video.pause(); }).catch(function () {}); }
+      window.removeEventListener('touchstart', unlock);
+      window.removeEventListener('pointerdown', unlock);
+    };
+    window.addEventListener('touchstart', unlock, { once: true, passive: true });
+    window.addEventListener('pointerdown', unlock, { once: true });
+
+    var target = 0;
+    var current = 0;
+    var raf = null;
+
+    var progress = function () {
+      var rect = track.getBoundingClientRect();
+      var scrollable = rect.height - (window.innerHeight || 0);
+      if (scrollable <= 0) return 0;
+      var p = -rect.top / scrollable;
+      return p < 0 ? 0 : (p > 1 ? 1 : p);
+    };
+
+    var phase = function (p) {
+      return p < 0.26 ? 'start' : (p < 0.78 ? 'mid' : 'end');
+    };
+
+    var tick = function () {
+      // Ease toward the scroll position so flicks feel like film, not a jump cut
+      current += (target - current) * 0.16;
+      if (ready && Math.abs(current - video.currentTime) > 1 / 48) {
+        try { video.currentTime = current; } catch (e) {}
+      }
+      if (Math.abs(target - current) > 0.004) {
+        raf = window.requestAnimationFrame(tick);
+      } else {
+        current = target;
+        raf = null;
+      }
+    };
+
+    var draw = function () {
+      maybeLoad();
+      var p = progress();
+      if (meter) meter.style.width = (p * 100).toFixed(2) + '%';
+      var ph = phase(p);
+      if (root.getAttribute('data-phase') !== ph) root.setAttribute('data-phase', ph);
+      if (!ready) return;
+      target = p * duration;
+      if (!raf) raf = window.requestAnimationFrame(tick);
+    };
+
+    var ticking = false;
+    var onScroll = function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () { draw(); ticking = false; });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    draw();
+  }
+
+  /* ----------------------------------------------------------------------
      Single-screen inquiry
      Posts to an endpoint when one is configured. Until then it composes the
      inquiry as an email and copies it, so the form is useful before launch
@@ -457,6 +577,7 @@
     reveals();
     accordion();
     enquiry();
+    reel();
     year();
     depth();
     magnetic();

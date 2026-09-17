@@ -346,17 +346,37 @@
   </div>
 </section>
 
+<section class="reel" id="reveal" data-reel data-phase="start">
+  <div class="reel__track">
+    <div class="reel__stage">
+      <img class="reel__still" src="assets/img/reveal-poster.jpg"
+           alt="The Noir Echelon monogram and wordmark, lit against black"
+           width="1280" height="720" loading="lazy" decoding="async">
+      <video class="reel__video" muted playsinline preload="none" disablepictureinpicture
+             aria-hidden="true" tabindex="-1"
+             poster="assets/img/reveal-poster.jpg"
+             data-src="assets/video/reveal-1280.mp4"
+             data-src-small="assets/video/reveal-854.mp4"
+             data-webm="assets/video/reveal-1280.webm"
+             data-webm-small="assets/video/reveal-854.webm"
+             width="1280" height="720"></video>
+      <div class="reel__veil" aria-hidden="true"></div>
+      <div class="reel__frame" aria-hidden="true"></div>
+
+      <div class="reel__caption">
+        <p class="eyebrow is-in"><span class="idx">&mdash;</span> The mark</p>
+        <h2>Built in the dark,<br><em>finished in the light.</em></h2>
+      </div>
+
+      <p class="reel__cue" aria-hidden="true">Scroll to reveal <span class="arrow">&#8595;</span></p>
+      <div class="reel__meter" aria-hidden="true"><i></i></div>
+    </div>
+  </div>
+</section>
+
 <section class="section" id="about">
   <div class="shell">
-    <div class="plate" data-reveal="mask">
-      <img src="assets/img/brand-hero.png"
-           srcset="assets/img/brand-hero-760.png 760w, assets/img/brand-hero.png 1400w"
-           sizes="(max-width: 900px) 100vw, 88vw"
-           alt="The Noir Echelon monogram and wordmark, lit against black"
-           width="1400" height="933" loading="lazy" decoding="async">
-    </div>
-
-    <div class="grid mt-xl">
+    <div class="grid">
       <div class="col-6">
         <p class="eyebrow"><span class="idx">&mdash;</span> About Noir Echelon</p>
         <h2 class="centred__title mt-m" style="text-align:left;margin-inline:0;max-width:14ch" data-reveal>

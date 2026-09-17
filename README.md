@@ -3,8 +3,9 @@
 The digital flagship for Noir Echelon — web development and digital marketing.
 
 A hand-built static site. No framework, no build pipeline required to deploy, no
-runtime dependencies. The home page loads in **~467 KB across 7 requests**; interior
-pages, which skip the brand hero image, are around 200 KB.
+runtime dependencies. The home page loads in **~512 KB across 8 requests**;
+interior pages, which skip the brand hero, are around 200 KB. The brand reveal
+video is lazy-loaded and never counts against that first paint.
 
 ---
 
@@ -52,6 +53,7 @@ assets/css/noir.css     The entire design system, one file
 assets/js/noir.js       All behaviour, ~18 KB, no dependencies
 assets/fonts/*.woff2    Self-hosted, latin subset, preloaded
 assets/img/work/*.svg   Project artwork (vector)
+assets/video/reveal-*   Scroll-scrubbed brand reveal (VP9 + H.264)
 
 tools/build.py          Renders the pages from shared chrome + content
 tools/content.py        Every page's copy and structure
@@ -104,6 +106,18 @@ cursor also switch off on coarse pointers and low-core devices.
 
 **The loader** runs once per session (1.4 s maximum), is skippable by click or
 `Esc`, and never runs for reduced-motion visitors.
+
+**The brand reveal** (`#reveal`) is a scroll-scrubbed video: a tall track gives
+the scroll distance, the stage pins inside it, and the visitor's scroll position
+drives `currentTime` — the video never plays itself. It is encoded with a
+keyframe every 8 frames so seeking is cheap, served as VP9 to browsers that take
+it and H.264 to the rest, and fetched only when the section is within one and a
+half screens. Reduced motion, a saver connection or no video support collapses
+the track and shows the poster still instead, costing nothing.
+
+Note for hosting: seeking requires HTTP range requests. Every real static host
+supports them (Vercel, Netlify, Cloudflare, S3, nginx); Python's
+`http.server` does not, so use `npx serve` or similar if you preview locally.
 
 ---
 

@@ -1246,19 +1246,100 @@ ul, ol { list-style: none; }
    29 — BRAND PLATE
    The lockup presented as a framed object rather than a background.
    -------------------------------------------------------------------------- */
-.plate {
-  position: relative; overflow: hidden; background: var(--noir-2);
-  max-height: min(66vh, 640px);
+/* --------------------------------------------------------------------------
+   29 — SCROLL-SCRUBBED BRAND REVEAL
+   The track supplies the scroll distance; the stage pins inside it and the
+   video's currentTime is driven by how far through the track you are.
+   -------------------------------------------------------------------------- */
+.reel { position: relative; background: var(--void); }
+.reel__track { height: 300vh; position: relative; }
+.reel__stage {
+  position: sticky; top: 0;
+  height: 100svh;
+  overflow: hidden;
+  display: grid; place-items: center;
+  background: var(--void);
 }
-.plate img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center 46%; }
-.plate::after {
-  content: '';
+.reel__video,
+.reel__still {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 700ms var(--ease);
+}
+.reel__still { opacity: 1; }
+.reel.is-playing .reel__video { opacity: 1; }
+.reel.is-playing .reel__still { opacity: 0; }
+
+/* Vignette: keeps the overlay type legible and blends the stage into the page */
+.reel__veil {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 38%, rgba(4,4,4,0.45) 82%),
+    linear-gradient(0deg, var(--void) 1%, transparent 26%),
+    linear-gradient(180deg, var(--void) 1%, transparent 22%);
+}
+.reel__frame {
   position: absolute;
-  inset: clamp(18px, 3.2vw, 52px);
-  border: 1px solid rgba(201, 168, 124, 0.38);
+  inset: clamp(18px, 3.2vw, 56px);
+  border: 1px solid rgba(201, 168, 124, 0.30);
   pointer-events: none;
 }
-.plate--reveal { clip-path: inset(0 0 100% 0); }
+
+.reel__caption {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding-inline: var(--gutter);
+  transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+}
+.reel__caption h2 {
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(1.9rem, 4.4vw, 3.8rem);
+  line-height: 1.06; letter-spacing: -0.022em;
+  max-width: 18ch; margin-inline: auto;
+}
+.reel__caption h2 em { font-style: italic; color: var(--accent-hi); }
+.reel__caption .eyebrow { justify-content: center; margin-bottom: 22px; }
+.reel__caption .eyebrow::after { display: none; }
+/* The caption steps back once the mark starts to assemble */
+.reel[data-phase="mid"] .reel__caption { opacity: 0; transform: translateY(-14px); }
+.reel[data-phase="end"] .reel__caption { opacity: 0; transform: translateY(-14px); }
+
+.reel__cue {
+  position: absolute; left: 50%; bottom: clamp(26px, 4vh, 48px);
+  transform: translateX(-50%);
+  z-index: 2; display: flex; align-items: center; gap: 12px;
+  font-size: var(--fs-micro); text-transform: uppercase;
+  letter-spacing: 0.26em; color: var(--fg-3);
+  transition: opacity 500ms var(--ease);
+}
+.reel[data-phase="mid"] .reel__cue, .reel[data-phase="end"] .reel__cue { opacity: 0; }
+
+.reel__meter {
+  position: absolute; left: var(--gutter); right: var(--gutter);
+  bottom: clamp(18px, 2.4vh, 28px); z-index: 2;
+  height: 1px; background: rgba(239,234,227,0.10);
+}
+.reel__meter i {
+  display: block; height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold-lo), var(--gold));
+  transform-origin: left;
+}
+
+/* No JS, reduced motion, or a saver connection: one still frame, no scroll cost */
+.reel.is-static .reel__track { height: auto; }
+.reel.is-static .reel__stage { position: relative; height: clamp(320px, 62vh, 640px); }
+.reel.is-static .reel__cue, .reel.is-static .reel__meter { display: none; }
+.reel.is-static .reel__caption { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reel__track { height: auto; }
+  .reel__stage { position: relative; height: clamp(320px, 62vh, 640px); }
+  .reel__cue, .reel__meter { display: none; }
+  .reel__video, .reel__still { transition: none; }
+}
+@media (max-width: 760px) { .reel__track { height: 240vh; } }
 
 /* --------------------------------------------------------------------------
    30 — TESTIMONIALS
