@@ -3,7 +3,8 @@
 The digital flagship for Noir Echelon — web development and digital marketing.
 
 A hand-built static site. No framework, no build pipeline required to deploy, no
-runtime dependencies. The whole site loads in **~164 KB across 8 requests**.
+runtime dependencies. The home page loads in **~467 KB across 7 requests**; interior
+pages, which skip the brand hero image, are around 200 KB.
 
 ---
 
@@ -79,12 +80,18 @@ change and keep `tools/content.py` in step.
 
 Everything is driven by custom properties at the top of `assets/css/noir.css`.
 
-**Colour.** Black is treated as an environment with tonal depth (`--void`
-through `--noir-4`), not a flat background. Champagne (`--gold`) is used like
-jewellery — hairlines, small capitals, arrows, one solid button — never as a
-large fill.
+**Colour.** The system has two halves. Noir is the default: black as an
+environment with tonal depth, champagne (`--gold`) used like jewellery — hairlines,
+small capitals, arrows — never as a large fill. Paper is the light half: warm ivory
+with a bronze accent.
 
-**Type.** Cormorant Garamond for display, Inter for interface. Sizes are fluid
+Components never name a palette colour directly. They read semantic tokens
+(`--bg`, `--fg`, `--fg-2`, `--fg-3`, `--accent`, `--hair`), and adding the `paper`
+class to a section redefines those tokens so everything inside re-themes itself —
+buttons, rules, eyebrows and rows included. Alternating the two is what gives the
+page its editorial rhythm.
+
+**Type.** Playfair Display for display, Inter for interface. Sizes are fluid
 `clamp()` values; small capitals carry `0.26em`–`0.3em` tracking.
 
 **Motion.** Transform and opacity only. Reveals are driven by
@@ -102,8 +109,8 @@ cursor also switch off on coarse pointers and low-core devices.
 
 - **Accessibility** — one `h1` per page, no heading-level jumps, labelled
   controls, a visible champagne focus ring, a skip link, a focus-trapped menu,
-  live-region form feedback. All body text measures at least 6.3:1 against the
-  background (WCAG AA is 4.5:1).
+  live-region form feedback. Every text colour clears WCAG AA on both the noir
+  and paper backgrounds (4.96:1 at the lowest, against a 4.5:1 requirement).
 - **Performance** — self-hosted preloaded woff2, vector artwork, lazy-loaded
   below-fold images, no third-party scripts, no layout-shifting webfont swap.
 - **SEO** — canonical URLs, unique titles and descriptions, Open Graph and

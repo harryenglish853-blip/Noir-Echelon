@@ -159,35 +159,67 @@ def facts_block():
 
 
 PROCESS = [
-    ("01", "Orientation", "We start with your business, not your website. What you sell, "
-     "who buys it, what the sale actually costs you, and where the current experience "
-     "loses people. One session, prepared for, with the people who make decisions."),
-    ("02", "Direction", "A written position and a visual direction, presented together. "
-     "You see the thinking and the design at the same time, because one without the "
-     "other is decoration. We agree the direction before a single page is built."),
-    ("03", "Design", "Every key screen, art-directed at desktop, tablet and mobile. "
-     "Typography, spacing, imagery, motion and the words that carry the argument. "
-     "You review real screens, not a mood board."),
-    ("04", "Build", "Hand-built front-end, accessible markup, a CMS your team can "
-     "actually use, and a performance budget enforced before launch. Staged, "
-     "reviewed, tested on real devices, then released."),
-    ("05", "Momentum", "Search, content, campaigns and measurement. We watch what "
-     "people do, improve what underperforms, and report in plain language — monthly, "
-     "with the numbers that matter and nothing padded."),
+    ("01", "Discovery", "We learn your business, customers, goals, competitors "
+     "and positioning."),
+    ("02", "Strategy", "We shape the user journey, messaging, conversion plan "
+     "and creative direction."),
+    ("03", "Design", "We art-direct a premium interface built around clarity, "
+     "emotion and trust."),
+    ("04", "Development", "We turn the approved direction into a responsive, "
+     "optimised experience."),
+    ("05", "Launch + Growth", "We launch, refine, measure and improve the system "
+     "as your business grows."),
 ]
 
 
 def process_block():
     steps = "".join(
         f"""
-  <div class="step" data-reveal>
-    <p class="step__num">{n}</p>
-    <h3 class="step__name">{name}</h3>
-    <p class="step__body">{body}</p>
-  </div>"""
+    <div class="row-link" data-reveal style="cursor:default">
+      <span class="row-link__idx">{n}</span>
+      <span class="row-link__name">{name}</span>
+      <span class="row-link__desc">{body}</span>
+      <span class="row-link__arrow"></span>
+    </div>"""
         for n, name, body in PROCESS
     )
-    return f'<div class="process" data-stagger="90">{steps}\n</div>'
+    return f'<div class="rows" data-stagger="80">{steps}\n  </div>'
+
+
+# ---------------------------------------------------------------------------
+# Capabilities
+# ---------------------------------------------------------------------------
+
+CAPABILITIES = [
+    ("01", "Web Design", "design",
+     "Refined, custom digital experiences built around your brand, your customer, "
+     "and your goals."),
+    ("02", "Web Development", "development",
+     "Responsive, fast, modern builds that feel polished across desktop, tablet "
+     "and mobile."),
+    ("03", "Digital Marketing", "marketing",
+     "Campaign strategy designed to turn attention into qualified opportunities "
+     "and measurable growth."),
+    ("04", "Local SEO", "seo",
+     "Search visibility systems that help your business appear where high-intent "
+     "customers are looking."),
+    ("05", "Website Management", "care",
+     "Ongoing optimisation, maintenance, content support and performance "
+     "refinement after launch."),
+]
+
+
+def capability_rows(root=""):
+    rows = ""
+    for idx, name, anchor, desc in CAPABILITIES:
+        rows += f"""
+      <a class="row-link" href="{root}services.html#{anchor}" data-reveal>
+        <span class="row-link__idx">{idx}</span>
+        <span class="row-link__name">{name}</span>
+        <span class="row-link__desc">{desc}</span>
+        <span class="row-link__arrow" aria-hidden="true">&#8599;</span>
+      </a>"""
+    return f'<div class="rows" data-stagger="70">{rows}\n    </div>'
 
 
 # ---------------------------------------------------------------------------
@@ -217,82 +249,128 @@ def home():
         "path": "index.html",
         "active": "index.html",
         "title": "Noir Echelon — Premium Web Design, Development &amp; Digital Marketing",
-        "description": "Noir Echelon designs, builds and markets digital experiences for "
-                       "businesses that intend to be taken seriously. Websites, e-commerce, "
-                       "brand and growth — one senior team.",
+        "description": "Noir Echelon creates premium websites and digital growth systems "
+                       "for businesses that refuse to look ordinary. Web design, development, "
+                       "marketing and local SEO.",
         "schema": ORG_SCHEMA,
     }
 
     body = f"""
-<section class="hero">
+<section class="hero hero--brand">
   <div class="ambient" aria-hidden="true"></div>
-  <div class="hero__watermark" data-depth="0.045" data-depth-center="true" aria-hidden="true">{MONOGRAM}</div>
+
+  <div class="hero__plate" aria-hidden="true">
+    <img src="assets/img/brand-hero.png"
+         srcset="assets/img/brand-hero-760.png 760w, assets/img/brand-hero.png 1400w"
+         sizes="(max-width: 900px) 100vw, 66vw"
+         alt="" width="1400" height="933" fetchpriority="high" decoding="async">
+  </div>
 
   <div class="shell hero__inner">
-    <p class="eyebrow is-in" style="max-width:520px"><span class="idx">&mdash;</span> Web development &amp; digital marketing</p>
+    <p class="hero__eyebrow is-in">Web development <i></i> Digital marketing</p>
 
-    <h1 class="hero__title mt-m is-in">
-      {lines('People judge you', '<em>before</em> they meet you.')}
+    <h1 class="hero__title--brand mt-m is-in">
+      {lines('Digital experiences', 'built to <em>elevate</em>.')}
     </h1>
 
-    <div class="hero__meta">
-      <div class="hero__lede">
-        <p class="lead" data-reveal style="--d:420ms">
-          We design, build and market digital experiences for companies whose
-          reputation should arrive first.
-        </p>
-      </div>
-      <div class="hero__actions" data-reveal style="--d:520ms">
-        <a class="btn btn--solid" href="contact.html" data-magnetic="0.22"><span>Start a project</span>{ARROW}</a>
-        <a class="btn" href="work.html" data-magnetic="0.18"><span>View selected work</span></a>
-      </div>
-      <div class="hero__index micro" data-reveal style="--d:600ms">
-        Design<br>Development<br>Marketing
-      </div>
+    <p class="lead mt-m" data-reveal style="--d:420ms;max-width:44ch">
+      Noir Echelon creates premium websites and digital growth systems for
+      businesses that refuse to look ordinary.
+    </p>
+
+    <div class="flex wrap gap-m items-center mt-l" data-reveal style="--d:520ms">
+      <a class="btn" href="contact.html" data-magnetic="0.22"><span>Start a project</span>{ARROW}</a>
+      <a class="link" href="#work">View selected work <span class="arrow" aria-hidden="true">&#8595;</span></a>
     </div>
 
-    <div class="hero__scroll micro" data-reveal style="--d:700ms">
-      <span class="flex items-center gap-s"><i class="dot" aria-hidden="true"></i> Scroll</span>
-      <span class="dim">Selected work below</span>
+    <div class="hero__rail" data-reveal style="--d:640ms">
+      <span>Strategy</span><span>Design</span><span>Development</span><span>Growth</span>
     </div>
   </div>
 </section>
 
-<section class="section" id="premise">
+<section class="section paper">
   <div class="shell">
-    {eyebrow('01', 'The premise')}
+    {eyebrow('&mdash;', 'The Noir Echelon standard')}
     <div class="grid mt-l">
-      <div class="col-7">
-        <p class="statement__text" data-reveal>
-          Most businesses don't have a traffic problem.<br>
-          They have a <em>perception</em> problem.
-        </p>
-      </div>
-      <div class="col-4 start-9 statement__aside" data-reveal style="--d:140ms">
-        <p class="body-copy">
-          Your website is compared &mdash; in seconds, unconsciously &mdash; against
-          every other website your customer has ever used. That comparison decides
-          whether you read as established or improvised, considered or cheap, safe
-          or risky.
-        </p>
-        <p class="body-copy">
-          It happens before a word of your copy is read. We design for that moment,
-          then build the machinery that turns it into revenue.
-        </p>
-        <a class="link mt-m" href="studio.html">How we think {ARROW_R}</a>
+      <div class="col-10">
+        <h2 class="centred__title" style="text-align:left;max-width:26ch;margin-inline:0" data-reveal>
+          Your digital presence is often your first impression.
+          <span class="roman">Make it impossible to forget.</span>
+        </h2>
       </div>
     </div>
+    <div class="grid mt-l">
+      <div class="col-7">
+        <p class="lead" data-reveal style="--d:120ms;max-width:62ch">
+          We combine strategy, premium design, technology and conversion thinking to
+          create websites that look established, feel intentional, and move people to act.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="capabilities">
+  <div class="ambient ambient--low" aria-hidden="true"></div>
+  <div class="shell" style="position:relative;z-index:2">
+    {eyebrow('&mdash;', 'Capabilities')}
+    <div class="grid mt-m">
+      <div class="col-9">
+        <h2 class="centred__title" style="text-align:left;margin-inline:0;max-width:22ch" data-reveal>
+          Built to look exceptional.<br><em>Engineered to perform.</em>
+        </h2>
+      </div>
+    </div>
+    {capability_rows()}
+    <div class="mt-l flex between items-center wrap gap-m">
+      <div class="rule" style="flex:1"></div>
+      <a class="btn btn--sm" href="services.html" data-magnetic="0.18"><span>All services</span>{ARROW}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="perception">
+  <div class="ambient ambient--low" aria-hidden="true"></div>
+  <div class="shell centred" style="position:relative;z-index:2">
+    {eyebrow('&mdash;', 'The perception principle')}
+    <h2 class="centred__title mt-m" data-reveal>
+      People judge your business before they ever <em>speak to you.</em>
+    </h2>
+    <p class="centred__lede" data-reveal style="--d:120ms">
+      Your website is your first impression, your reputation, your salesperson
+      and your storefront &mdash; working every hour of every day.
+    </p>
+    <div class="pillars" data-stagger="110">
+      <div class="pillar" data-reveal><p class="pillar__num">01</p><p class="pillar__lbl">Look established</p></div>
+      <div class="pillar" data-reveal><p class="pillar__num">02</p><p class="pillar__lbl">Communicate value</p></div>
+      <div class="pillar" data-reveal><p class="pillar__num">03</p><p class="pillar__lbl">Convert attention</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section paper" id="process">
+  <div class="shell">
+    {eyebrow('&mdash;', 'Process')}
+    <div class="grid mt-m">
+      <div class="col-8">
+        <h2 class="centred__title" style="text-align:left;margin-inline:0;max-width:16ch" data-reveal>
+          From idea to <em>digital echelon.</em>
+        </h2>
+      </div>
+    </div>
+    {process_block()}
   </div>
 </section>
 
 <section class="section" id="work">
   <div class="shell">
-    <div class="flex between items-end wrap gap-m">
-      {eyebrow('02', 'Selected work')}
-    </div>
+    {eyebrow('&mdash;', 'Selected work')}
     <div class="grid mt-m">
       <div class="col-8">
-        <h2 class="h2" data-reveal>Work that had to carry weight.</h2>
+        <h2 class="centred__title" style="text-align:left;margin-inline:0;max-width:20ch" data-reveal>
+          Work that had to <em>carry weight.</em>
+        </h2>
       </div>
     </div>
 
@@ -311,35 +389,13 @@ def home():
   </div>
 </section>
 
-<section class="section" id="capabilities">
-  <div class="ambient ambient--low" aria-hidden="true"></div>
-  <div class="shell" style="position:relative;z-index:2">
-    {eyebrow('03', 'Capabilities')}
-    <div class="grid mt-m">
-      <div class="col-7">
-        <h2 class="h2" data-reveal>Six disciplines.<br>One senior team.<br>No handoffs.</h2>
-      </div>
-      <div class="col-4 start-9 flex items-end" data-reveal style="--d:120ms">
-        <p class="dim" style="font-size:var(--fs-small);max-width:34ch">
-          Design, engineering and marketing under one roof, because the handoff
-          between them is where most projects quietly lose their edge.
-        </p>
-      </div>
-    </div>
-
-    <div class="cap-list" data-stagger="70">
-      {capabilities_rows()}
-    </div>
-  </div>
-</section>
-
-<section class="section" id="why">
+<section class="section paper" id="why">
   <div class="shell">
-    {eyebrow('04', 'Why Noir Echelon')}
+    {eyebrow('&mdash;', 'Why Noir Echelon')}
     <div class="grid mt-l">
       <div class="col-6">
-        <h2 class="h3" data-reveal>
-          We don't design for other designers.<br>We design for your customers.
+        <h2 class="centred__title" style="text-align:left;margin-inline:0;max-width:18ch" data-reveal>
+          We don't design for other designers. <em>We design for your customers.</em>
         </h2>
       </div>
       <div class="col-5 start-8" data-reveal style="--d:120ms">
@@ -350,8 +406,8 @@ def home():
         </p>
         <p class="body-copy">
           That is why strategy, design, engineering and marketing sit in the same
-          room here. A beautiful site that nobody finds is a portfolio piece. A
-          site that ranks but looks improvised is a discount waiting to happen.
+          room here. A beautiful site nobody finds is a portfolio piece. A site
+          that ranks but looks improvised is a discount waiting to happen.
         </p>
       </div>
     </div>
@@ -359,23 +415,11 @@ def home():
   </div>
 </section>
 
-<section class="section" id="process">
-  <div class="shell">
-    {eyebrow('05', 'How we work')}
-    <div class="grid mt-m">
-      <div class="col-7">
-        <h2 class="h2" data-reveal>A process you can<br>see the whole way through.</h2>
-      </div>
-    </div>
-    {process_block()}
-  </div>
-</section>
-
 <section class="section" id="questions">
   <div class="shell">
     <div class="grid">
       <div class="col-4">
-        {eyebrow('06', 'Before you ask')}
+        {eyebrow('&mdash;', 'Before you ask')}
         <h2 class="h3 mt-m" data-reveal>The questions<br>worth asking early.</h2>
         <p class="dim mt-m" style="font-size:var(--fs-small);max-width:30ch">
           If something here is not answered, ask us directly. We would rather have
@@ -389,48 +433,6 @@ def home():
   </div>
 </section>"""
     return meta, body
-
-
-CAPABILITIES = [
-    ("01", "Brand &amp; identity", "identity",
-     "Positioning, naming, art direction and the typographic system your business is "
-     "judged by before anyone reads a word.",
-     ["Positioning", "Art direction", "Guidelines"]),
-    ("02", "Websites", "web",
-     "Design and front-end engineering for sites that load instantly, read as considered "
-     "on every device, and survive contact with your team's content.",
-     ["UX / UI", "Front-end", "CMS"]),
-    ("03", "E-commerce", "commerce",
-     "Storefronts built to sell at full price: merchandising, product storytelling, "
-     "frictionless checkout and the lifecycle email behind it.",
-     ["Shopify", "Headless", "Lifecycle"]),
-    ("04", "Digital marketing", "marketing",
-     "Search, content and paid media that put the right people in front of the work &mdash; "
-     "and stop paying for the wrong ones.",
-     ["SEO", "Paid media", "Content"]),
-    ("05", "Conversion &amp; growth", "growth",
-     "Analytics, testing and iteration after launch, because a website is a product, "
-     "not a project that ends.",
-     ["Analytics", "CRO", "Testing"]),
-    ("06", "Care &amp; evolution", "care",
-     "Hosting, security, performance budgets, accessibility and a named person who "
-     "answers when something needs to change.",
-     ["Support", "Hosting", "Performance"]),
-]
-
-
-def capabilities_rows(link_root=""):
-    rows = ""
-    for idx, name, anchor, desc, tags in CAPABILITIES:
-        tag_html = "".join(f'<span class="cap__tag">{t}</span>' for t in tags)
-        rows += f"""
-      <div class="cap" id="{anchor}" data-reveal>
-        <p class="cap__idx">{idx}</p>
-        <h3 class="cap__name">{name}</h3>
-        <p class="cap__desc">{desc}</p>
-        <div class="cap__tags">{tag_html}</div>
-      </div>"""
-    return rows
 
 
 # ---------------------------------------------------------------------------
@@ -513,53 +515,47 @@ def work_index():
 # ---------------------------------------------------------------------------
 
 SERVICE_DETAIL = [
-    ("Brand &amp; identity", "identity",
+    ("Web Design", "design",
      "Before the website, the position.",
      "A business that cannot say what it is in one sentence cannot be designed for. "
-     "We settle the position, the audience and the promise first, then build the "
-     "visual system that carries it: typography, colour, art direction, photography "
-     "direction and the rules that keep it consistent when we are no longer in the room.",
-     ["Positioning &amp; messaging", "Visual identity", "Typography system",
-      "Art direction", "Brand guidelines"]),
-    ("Websites", "web",
+     "We settle the position, the audience and the promise first, then art-direct "
+     "every key screen at desktop, tablet and mobile &mdash; typography, colour, "
+     "imagery, motion and the words that carry the argument. You review real "
+     "screens, not a mood board.",
+     ["Positioning &amp; messaging", "Visual identity &amp; art direction",
+      "UX &amp; information architecture", "Interface design",
+      "Responsive art direction", "Design system &amp; guidelines"]),
+    ("Web Development", "development",
      "Hand-built, not assembled.",
-     "Every page is designed at desktop, tablet and mobile &mdash; not shrunk to fit. "
-     "The front end is written by hand, so there is no page builder bloat to slow it "
-     "down, and the CMS is configured around how your team actually writes. "
+     "The front end is written by hand, so there is no page builder bloat to slow "
+     "it down, and the CMS is configured around how your team actually writes. "
      "Accessibility and performance budgets are set before design starts, not "
      "retrofitted after launch.",
-     ["UX &amp; information architecture", "Interface design", "Front-end engineering",
-      "CMS integration", "Accessibility (WCAG 2.2 AA)", "Performance budgets"]),
-    ("E-commerce", "commerce",
-     "Built to sell at full price.",
-     "Discounting is usually a design failure. We build storefronts that justify the "
-     "price: product storytelling that answers real objections, photography direction "
-     "that does the selling, a checkout with nothing in the way, and the lifecycle "
-     "email that turns one order into three.",
-     ["Shopify &amp; headless builds", "Merchandising &amp; product pages",
-      "Checkout optimisation", "Lifecycle email &amp; flows", "Subscription &amp; loyalty"]),
-    ("Digital marketing", "marketing",
+     ["Front-end engineering", "CMS integration", "E-commerce builds",
+      "Accessibility (WCAG 2.2 AA)", "Performance budgets", "Analytics &amp; tracking"]),
+    ("Digital Marketing", "marketing",
      "Attention, bought carefully.",
-     "Search that compounds, content with a reason to exist, and paid media held to a "
-     "cost per qualified enquiry rather than impressions. We report in plain language, "
-     "monthly, and we will tell you when a channel is not working for you.",
-     ["Technical &amp; local SEO", "Content strategy", "Paid search &amp; social",
-      "Analytics &amp; attribution", "Monthly reporting"]),
-    ("Conversion &amp; growth", "growth",
-     "The work after the launch.",
-     "Launch produces the first honest data you have ever had about your customers. "
-     "We read it: where attention goes, where people hesitate, which page loses the "
-     "enquiry. Then we change one thing at a time and measure whether it helped.",
-     ["Funnel &amp; session analysis", "A/B and structured testing",
-      "Landing page systems", "Conversion copywriting"]),
-    ("Care &amp; evolution", "care",
+     "Campaigns held to a cost per qualified enquiry rather than impressions. "
+     "Content with a reason to exist, paid media that stops paying for the wrong "
+     "people, and reporting in plain language, monthly. We will tell you when a "
+     "channel is not working for you.",
+     ["Campaign strategy", "Paid search &amp; social", "Content strategy",
+      "Lifecycle email", "Attribution &amp; reporting"]),
+    ("Local SEO", "seo",
+     "Found where it counts.",
+     "Search visibility built to compound: the technical foundation first, then "
+     "the pages that answer what your customers actually type, then the local "
+     "signals that decide who appears when someone is ready to buy nearby.",
+     ["Technical SEO", "Local &amp; map visibility", "Keyword &amp; intent mapping",
+      "On-page optimisation", "Review &amp; listing management"]),
+    ("Website Management", "care",
      "A team that answers.",
      "Hosting, monitoring, backups, security patching, dependency updates and a "
      "performance budget that is enforced, not aspirational. A named contact, a "
      "response time you can hold us to, and a monthly window for the small changes "
      "that otherwise pile up for a year.",
      ["Managed hosting", "Security &amp; monitoring", "Performance care",
-      "Content updates", "Quarterly review"]),
+      "Content updates", "Conversion refinement", "Quarterly review"]),
 ]
 
 
@@ -601,7 +597,7 @@ def services():
     <div class="grid mt-l">
       <div class="col-5 start-8">
         <p class="body-copy" data-reveal style="--d:300ms">
-          Six disciplines, one senior team, no handoff between the people who plan
+          Five disciplines, one senior team, no handoff between the people who plan
           the work and the people who make it. Engage us for one, or for the whole
           arc from position to performance.
         </p>

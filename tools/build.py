@@ -79,7 +79,7 @@ def head(meta, root):
 <link rel="apple-touch-icon" href="{root}assets/img/apple-touch-icon.png">
 <link rel="manifest" href="{root}site.webmanifest">
 
-<link rel="preload" href="{root}assets/fonts/cormorant-garamond.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{root}assets/fonts/playfair-display.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{root}assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{root}assets/css/noir.css">
 <script src="{root}assets/js/noir.js" defer></script>
@@ -203,11 +203,11 @@ def footer(root):
       <div class="foot-col">
         <h2>Capabilities</h2>
         <ul>
-          <li><a href="{root}services.html#identity">Brand identity</a></li>
-          <li><a href="{root}services.html#web">Websites</a></li>
-          <li><a href="{root}services.html#commerce">E-commerce</a></li>
+          <li><a href="{root}services.html#design">Web design</a></li>
+          <li><a href="{root}services.html#development">Web development</a></li>
           <li><a href="{root}services.html#marketing">Digital marketing</a></li>
-          <li><a href="{root}services.html#growth">Conversion &amp; growth</a></li>
+          <li><a href="{root}services.html#seo">Local SEO</a></li>
+          <li><a href="{root}services.html#care">Website management</a></li>
         </ul>
       </div>
 
