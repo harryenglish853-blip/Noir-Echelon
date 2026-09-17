@@ -6,26 +6,32 @@ and commitments that do not exist yet. Work through this list first.
 
 ---
 
-## 1. The portfolio — required
+## 1. The portfolio — real, and sourced
 
-`Meridian House`, `Atelier Varona` and `Calder & Roe` are **invented** projects.
-They demonstrate the case-study format; they are not work that was delivered.
+The three projects are now genuine client work, written from the project
+repositories rather than invented:
 
-Replace, per project:
-
-| What | Where |
+| Project | Source |
 |---|---|
-| Name, sector, scope, year, summary | `tools/content.py` → `PROJECTS` |
-| Case-study chapters | `tools/content.py` → `CASES` |
-| Artwork (4 images each) | `assets/img/work/<key>-{cover,type,devices,palette}.svg` |
+| Quik Burrito — Anthem, AZ | `harryenglish853-blip/Quik-Burrito-KaLeb-Owner`, branch `claude/quik-burrito-website-y8jtv1` |
+| Phở Thành — Phoenix, AZ | `harryenglish853-blip/pho`, `main` |
+| The Ol' Clip Joint — Phoenix, AZ | `harryenglish853-blip/pho`, branch `claude/ol-clip-joint-appointments-qkr1n1` |
 
-The artwork is generated vector placeholder. Swap in real screenshots — export
-at 1600×1000 for covers and 1200×900 for detail figures, as AVIF or WebP with a
-JPEG fallback, and update the `<img>` `src`, `width` and `height`.
+Every claim in the case studies traces to those repositories' own READMEs and
+code. The "The result" chapters describe **what shipped**, not what it earned —
+each one carries an HTML comment marking where evidenced figures go. Do not add
+numbers you cannot show a client.
 
-**Do not publish outcome figures you cannot evidence.** Each case study's
-"The result" chapter carries an HTML comment marking where verified numbers go.
-Until you have them, describe what was delivered rather than what it earned.
+Two things worth doing when you have them:
+
+- **Screenshots of the live sites.** The cards currently use each project's own
+  photography, which is real but shows the subject rather than the interface.
+  Actual screenshots would show the work itself.
+- **Live links.** If the sites are public, the cards can link out to them
+  alongside the case study.
+
+Artwork lives in `assets/img/work/` and is referenced by the `img` key in
+`PROJECTS` (`tools/content.py`).
 
 ## 2. The operating facts — check each one
 
@@ -104,7 +110,7 @@ Replace it if you want the shared preview to show work instead of the logo.
 
 ## Launch checklist
 
-- [ ] Real projects in, placeholder projects out
+- [x] Real projects in, placeholder projects out
 - [ ] Every claim in `FACTS` and the FAQ verified
 - [ ] Real domain in `SITE`, then `python3 tools/build.py`
 - [x] Real email wired through the site

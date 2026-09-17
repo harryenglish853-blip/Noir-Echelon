@@ -33,34 +33,43 @@ def lines(*rows):
 
 PROJECTS = [
     {
-        "slug": "meridian-house",
-        "key": "meridian",
-        "name": "Meridian House",
-        "sector": "Property development",
-        "scope": "Brand system, website, release portal",
-        "year": "2025",
-        "summary": "A twelve-residence development sold from a single, unhurried page \u2014 positioning, identity, website and agent reservation portal, launched in nine weeks.",
-        "alt": "Meridian House homepage — serif headline over a dark editorial layout",
+        "slug": "quik-burrito",
+        "key": "quik-burrito",
+        "name": "Quik Burrito",
+        "sector": "Restaurant &middot; Anthem, Arizona",
+        "scope": "Website, menu, locations &amp; reviews",
+        "year": "2026",
+        "summary": "A conversion-first restaurant site whose homepage is one continuous "
+                   "scroll-scrubbed journey through the food, the kitchen and the people, "
+                   "ending on the order button.",
+        "img": "quik-burrito-cover.jpg",
+        "alt": "Birria tacos pulled apart over consommé, from the Quik Burrito site",
     },
     {
-        "slug": "atelier-varona",
-        "key": "varona",
-        "name": "Atelier Varona",
-        "sector": "Ready-to-wear",
-        "scope": "E-commerce design, build, lifecycle marketing",
-        "year": "2025",
-        "summary": "A ready-to-wear storefront built to sell at full price rather than on discount \u2014 e-commerce design, headless build and lifecycle marketing for Atelier Varona.",
-        "alt": "Atelier Varona storefront — ivory layout with oxblood accents",
+        "slug": "pho-thanh",
+        "key": "pho-thanh",
+        "name": "Ph&#7903; Th&agrave;nh",
+        "sector": "Vietnamese restaurant &middot; Phoenix",
+        "scope": "Single-page scroll story &amp; full menu system",
+        "year": "2026",
+        "summary": "One photograph, layered on itself and masked ingredient by ingredient, "
+                   "so that scrolling takes the bowl apart and puts the whole menu within "
+                   "reach underneath it.",
+        "img": "pho-thanh-cover.jpg",
+        "alt": "A bowl of ph\u1edf suspended mid-air, beef and garnishes lifting away from the broth",
     },
     {
-        "slug": "calder-roe",
-        "key": "calder",
-        "name": "Calder &amp; Roe",
-        "sector": "Private wealth advisory",
-        "scope": "Positioning, website, search &amp; content",
-        "year": "2024",
-        "summary": "Quiet authority for a private wealth firm whose clients arrive by referral \u2014 positioning, website, accessibility and a search foundation built to compound.",
-        "alt": "Calder & Roe website — deep green layout with restrained typography",
+        "slug": "ol-clip-joint",
+        "key": "ol-clip-joint",
+        "name": "The Ol&rsquo; Clip Joint",
+        "sector": "Barbershop &middot; Phoenix",
+        "scope": "Website &amp; confirm-first appointment line",
+        "year": "2026",
+        "summary": "A booking system built on one rule: a request is not an appointment "
+                   "until the barber says so. Nothing on the site can put a client in the "
+                   "chair on its own.",
+        "img": "ol-clip-joint-cover.jpg",
+        "alt": "A hot-towel shave in progress at The Ol' Clip Joint in Phoenix",
     },
 ]
 
@@ -79,7 +88,7 @@ def work_item(p, root="", tall=False, index="01"):
   <a class="work-item__link" href="{root}work/{p['slug']}.html" data-cursor="view"
      aria-label="{p['name']} — view case study">
     <div class="work-item__frame">
-      <img class="work-item__media" src="{root}assets/img/work/{p['key']}-cover.svg"
+      <img class="work-item__media" src="{root}assets/img/work/{p['img']}"
            alt="{p['alt']}" loading="lazy" decoding="async" width="1600" height="1000">
     </div>
     <div class="work-item__head">
@@ -1091,179 +1100,177 @@ def contact():
 # outcome figures you can evidence.
 
 CASES = {
-    "meridian-house": {
-        "eyebrow": "Property development &middot; Manchester",
-        "headline": "Twelve residences,<br>sold from one page.",
+    "quik-burrito": {
+        "eyebrow": "Restaurant &middot; Anthem, Arizona",
+        "headline": "Make somebody hungry,<br>then get out of the way.",
         "meta": [
-            ("Client", "Meridian House"),
-            ("Sector", "Residential development"),
-            ("Scope", "Positioning, identity, website, release portal"),
-            ("Year", "2025"),
+            ("Client", "Quik Burrito"),
+            ("Sector", "Restaurant"),
+            ("Scope", "Website, menu, locations, reviews"),
+            ("Year", "2026"),
         ],
+        "figures": {1: ("quik-burrito-brand.jpg", "The mark, carried through every page", 1200, 750)},
         "chapters": [
             ("The client",
-             "A developer, not a marketer.",
-             ["Meridian House is a twelve-residence conversion in a listed building. "
-              "The developer had built carefully for two years and had eight weeks to "
-              "present it &mdash; with a brochure site put together by the estate agency "
-              "and photographs taken on a grey afternoon.",
-              "The building was better than anything being said about it."]),
-            ("The challenge",
-             "The buyer decides in ninety seconds.",
-             ["At this price a buyer is not comparing floor plans. They are deciding, "
-              "almost immediately, whether the developer has taste and whether the "
-              "building will be finished to the standard implied. Every signal on the "
-              "old site &mdash; stock imagery, a cluttered enquiry form, a slow gallery "
-              "&mdash; argued the opposite.",
-              "There was a second problem. Agents wanted a portal for reservations; "
-              "buyers wanted calm. Those two needs had to live in one product without "
-              "the second ruining the first."]),
+             "A burrito shop in Anthem, Arizona.",
+             ["Quik Burrito sells food that photographs extraordinarily well and, like most "
+              "independent restaurants, was competing for attention against delivery apps "
+              "whose entire business is being one tap away."]),
+            ("The brief",
+             "One job, stated plainly.",
+             ["The site has a single job: make somebody hungry, then get them to order "
+              "online in one tap. Everything was measured against that sentence. If a "
+              "section did not make you hungrier or make ordering easier, it did not ship."]),
             ("The strategy",
-             "Sell the address, not the amenities.",
-             ["We rewrote the position around place and permanence rather than "
-              "specification. Amenity lists moved behind a single, quiet link. The "
-              "homepage was reduced to one line, one photograph and one action.",
-              "The reservation portal was separated entirely: same identity, different "
-              "room. Buyers browse; agents transact."]),
+             "Sell the food, not the restaurant.",
+             ["The homepage became one continuous scroll-scrubbed journey &mdash; the "
+              "burrito, the ingredients, the grill, the build, the signature dishes, the "
+              "birria dip &mdash; ending on the order button. The camera is tied to the "
+              "wheel, so the pace belongs to the visitor; scroll back up anywhere and the "
+              "move runs in reverse.",
+              "Brand, tagline and ORDER ONLINE are all in the first frame. There is nothing "
+              "to wait through before you can act."]),
             ("The experience",
-             "One page, unhurried.",
-             ["A single scroll: the address, the light, the plans, the specification, "
-              "the register. Typography carries the weight &mdash; a high-contrast serif "
-              "at display sizes, wide-tracked capitals for navigation, and generous "
-              "space that reads as confidence rather than emptiness.",
-              "Photography is shown full-bleed and uncropped on mobile, art-directed "
-              "per breakpoint rather than letterboxed. Motion is limited to reveals "
-              "that follow the reader down the page."]),
+             "Cinematic on top, plain underneath.",
+             ["Everything beneath the homepage &mdash; menu, locations, reviews &mdash; is "
+              "deliberately fast and plain, and usable on a phone with one hand. The "
+              "cinema earns attention; the utility pages spend it.",
+              "Locations are individually addressable, so a search for the nearest branch "
+              "lands on a real page rather than a map pin buried in a single contact page."]),
             ("The build",
-             "Static, instant, indexable.",
-             ["Hand-written front end, statically rendered, served from the edge with "
-              "responsive AVIF imagery and a hard performance budget. The reservation "
-              "portal runs as a separate authenticated application against the same "
-              "design tokens, so the two never drift apart visually.",
-              "The developer's team updates availability from a CMS that offers exactly "
-              "four fields, because a sales team should not be asked to operate a "
-              "publishing platform."]),
+             "Server-rendered, indexable, fast.",
+             ["Built on the Next.js app router with server-rendered routes, generated "
+              "<code>robots.txt</code> and <code>sitemap.xml</code>, and per-location pages "
+              "on dynamic routes. Social proof is pulled in rather than screenshotted, so "
+              "it stays current without anyone maintaining it."]),
             ("The result",
-             "A release that looked finished before it was.",
-             ["The site launched in nine weeks with the identity, the marketing site "
-              "and the agent portal in place, and it now reads the way the building "
-              "does &mdash; considered, quiet and expensive.",
+             "A site that behaves like the food.",
+             ["Shipped with the cinematic homepage, the full menu, per-location pages and "
+              "reviews, with the order path reachable from the first frame of every one.",
               "<!-- Add verified commercial outcomes here once they can be evidenced. -->"]),
         ],
-        "pull": "The building was better than anything being said about it.",
-        "next": "atelier-varona",
+        "pull": "If a section did not make you hungrier or make ordering easier, it did not ship.",
+        "next": "pho-thanh",
     },
-    "atelier-varona": {
-        "eyebrow": "Ready-to-wear &middot; E-commerce",
-        "headline": "A storefront built<br>to hold its price.",
+    "pho-thanh": {
+        "eyebrow": "Vietnamese restaurant &middot; Phoenix",
+        "headline": "One photograph,<br>taken apart by scrolling.",
         "meta": [
-            ("Client", "Atelier Varona"),
-            ("Sector", "Ready-to-wear"),
-            ("Scope", "E-commerce design &amp; build, lifecycle marketing"),
-            ("Year", "2025"),
+            ("Client", "Ph&#7903; Th&agrave;nh"),
+            ("Sector", "Vietnamese restaurant"),
+            ("Scope", "Single-page site, full menu system"),
+            ("Year", "2026"),
         ],
+        "figures": {},
         "chapters": [
             ("The client",
-             "Twenty years of craft, sold like a catalogue.",
-             ["Varona makes a small ready-to-wear collection in-house, in numbered runs. "
-              "The clothes are made to last decades. The storefront was a stock theme "
-              "with a discount banner at the top of every page."]),
+             "A family restaurant on West Camelback.",
+             ["Ph&#7903; Th&agrave;nh has been serving Phoenix from 1702 W Camelback Road: "
+              "one family, one very large menu, no fuss. The menu is the business, and it "
+              "runs to well over a hundred numbered items across ph&#7903;, b&uacute;n, "
+              "com and a Kwan &amp; Wok insert."]),
             ("The challenge",
-             "Discounting was doing the selling.",
-             ["Nothing on the site explained why a coat cost what it cost &mdash; not "
-              "the cloth, not the cutting, not the hours. In the absence of that "
-              "argument, price becomes the only variable a customer can reason about, "
-              "and the only lever the business has left is discount.",
-              "The brief was not more traffic. It was margin."]),
+             "A menu that long is usually a PDF.",
+             ["The default for a restaurant with this much menu is a scanned PDF that "
+              "nobody can read on a phone. The challenge was to make the size of the menu "
+              "feel like abundance rather than homework &mdash; and to do it without a "
+              "photo library, because there was exactly one usable photograph."]),
             ("The strategy",
-             "Make the craft visible before the price is.",
-             ["We moved the making to the front: cloth origin, construction, the hands "
-              "involved, the expected life of the garment. Product pages answer "
-              "objections in the order customers actually raise them &mdash; fit, then "
-              "fabric, then care, then return.",
-              "The discount banner was removed. In its place, a numbered-run counter "
-              "that tells the truth about scarcity instead of inventing it."]),
+             "Spend everything on the one image you have.",
+             ["That single photograph became the whole opening. It is layered on top of "
+              "itself inside a sticky, full-viewport stage, and each layer is masked to one "
+              "ingredient &mdash; the beef slice and chopsticks, lime, jalape&ntilde;os, "
+              "chilies, basil, the broth splashes, the bowl.",
+              "Scrolling scrubs roughly 3,700 pixels of story: the garnishes fly out, the "
+              "beef lifts, the bowl comes apart, and the copy about the broth and the "
+              "kitchen reads in the gaps between."]),
             ("The experience",
-             "Editorial pace, retail precision.",
-             ["Ivory paper, oxblood accents, and a serif that behaves like a fashion "
-              "masthead. Collection pages read as a lookbook; product pages tighten "
-              "into something closer to a spec sheet, because that is the moment "
-              "reassurance matters more than atmosphere.",
-              "Checkout is three fields shorter than it was, with wallet payments "
-              "first and no account required &mdash; the only step where we removed "
-              "storytelling entirely."]),
+             "Then the menu, in full, in plain text.",
+             ["Once the theatre is over the site becomes a reference. Every numbered item "
+              "is real text with jump links by section, so a customer can find item 122 on "
+              "a phone in a parking lot.",
+              "Steam is a canvas particle layer that thickens while the bowl is coming "
+              "apart and settles at the end. Pointer movement adds a small parallax to "
+              "every layer. Reduced-motion visitors get none of it &mdash; no smoothing, "
+              "no parallax, no steam."]),
             ("The build",
-             "Fast where it earns money.",
-             ["Headless storefront with server-rendered collection and product pages, "
-              "image transforms at the edge, and a cart that never blocks the page. "
-              "Lifecycle email runs on the same design system, so a receipt looks like "
-              "the shop it came from.",
-              "Merchandising, copy blocks and the run counter are all editable by the "
-              "studio without a developer."]),
+             "No framework, no build step.",
+             ["Vanilla HTML, CSS and JavaScript. The folder opens in a browser or sits on "
+              "any static host, which matters for a restaurant that should never be "
+              "dependent on a build pipeline it does not own.",
+              "The menu lives as data: a new section is an object appended to one file, "
+              "and both the menu block and its jump links render it automatically.",
+              "The printed menus disagreed with each other in several places &mdash; "
+              "handwritten prices, an insert that exists in two prints, differing hours. "
+              "Every discrepancy is documented in the repository for the restaurant to "
+              "settle rather than quietly guessed at."]),
             ("The result",
-             "A shop that argues for its own prices.",
-             ["The storefront launched with the full collection, lifecycle flows and a "
-              "content system the atelier maintains itself &mdash; and without a single "
-              "discount banner.",
+             "A menu you can actually use, wrapped in something worth watching.",
+             ["Shipped as a single page carrying the full menu, the scroll sequence and "
+              "the visit details, with no build step and one image.",
               "<!-- Add verified commercial outcomes here once they can be evidenced. -->"]),
         ],
-        "pull": "In the absence of an argument, price is the only variable a customer can reason about.",
-        "next": "calder-roe",
+        "pull": "Make the size of the menu feel like abundance rather than homework.",
+        "next": "ol-clip-joint",
     },
-    "calder-roe": {
-        "eyebrow": "Private wealth &middot; Advisory",
-        "headline": "Quiet authority,<br>made findable.",
+    "ol-clip-joint": {
+        "eyebrow": "Barbershop &middot; Phoenix",
+        "headline": "A request is not<br>an appointment.",
         "meta": [
-            ("Client", "Calder &amp; Roe"),
-            ("Sector", "Private wealth advisory"),
-            ("Scope", "Positioning, website, SEO &amp; content"),
-            ("Year", "2024"),
+            ("Client", "The Ol&rsquo; Clip Joint"),
+            ("Sector", "Barbershop"),
+            ("Scope", "Website &amp; appointment line"),
+            ("Year", "2026"),
         ],
+        "figures": {
+            1: ("ol-clip-joint-detail.jpg", "Classic cuts, late hours", 1200, 671),
+            3: ("ol-clip-joint-film.jpg", "The shop, shot on location", 1200, 675),
+        },
         "chapters": [
             ("The client",
-             "Referrals only, and slowing.",
-             ["A twelve-person advisory firm whose clients had always arrived by "
-              "introduction. The introductions were still coming, but from a generation "
-              "that was retiring &mdash; and their children were searching first and "
-              "asking second."]),
+             "Classic cuts, late hours.",
+             ["The Ol&rsquo; Clip Joint sits at 5620 N 7th Street in Phoenix, and Matt runs "
+              "the chair. Late hours are part of the offer, which means the booking "
+              "questions arrive at all hours too."]),
             ("The challenge",
-             "Credibility that does not survive a search.",
-             ["The firm read as serious in a room and as invisible online. The site was "
-              "a decade old, the partners' expertise existed only as PDFs, and the "
-              "phrases prospective clients actually type had no page to land on.",
-              "The risk in this sector runs both ways: look too commercial and you "
-              "forfeit trust; stay silent and you are never considered at all."]),
+             "Booking software books people. Barbers decide.",
+             ["Off-the-shelf booking tools will happily put a stranger in the chair at 9 PM "
+              "without asking anyone. For a single-chair shop that is not convenience, it "
+              "is a scheduling problem arriving by surprise &mdash; and a client who turns "
+              "up to a slot that was never really available."]),
             ("The strategy",
-             "Publish the thinking, quietly.",
-             ["We positioned the firm around patience &mdash; long horizons, few "
-              "clients, no product sales &mdash; and built a small library of genuinely "
-              "useful writing around the decisions clients face, mapped to real search "
-              "demand rather than keyword volume.",
-              "No gated downloads, no newsletter modal, no chat widget. Authority is "
-              "demonstrated, not captured."]),
+             "Make the barber the last word, in the software.",
+             ["The whole system is built on one rule: a request is not an appointment until "
+              "Matt says so. Nothing on the site can put a client in the chair.",
+              "A client picks a service, a day, a time and leaves a name and mobile. That "
+              "texts Matt with who, what and when, a confirm link, and a reply code. The "
+              "client is immediately texted that it is a request and nothing is booked "
+              "yet. Only when Matt confirms &mdash; one tap, or a text back &mdash; does "
+              "the client get the message that says they are booked."]),
             ("The experience",
-             "Restraint as a trust signal.",
-             ["Deep green, ivory type, a generous measure and almost no ornament. "
-              "Partner profiles lead with judgement rather than credentials, and every "
-              "page ends with the same single, unhurried invitation to talk.",
-              "The insight library is designed for reading: one column, real line "
-              "height, and a typographic scale that holds at every width."]),
+             "Three ways onto the book, one source of truth.",
+             ["Online, by text, or by phone for anything sooner than an hour out. The text "
+              "route writes the message and opens Messages; it is still a request, and the "
+              "site says so in those words.",
+              "A pending request holds its slot, so two people cannot be sent to the same "
+              "9 PM chair. If Matt does not answer within two hours the hold expires, the "
+              "time goes back on the board, and the client is told it lapsed rather than "
+              "being left wondering."]),
             ("The build",
-             "Structured for search and for people.",
-             ["Server-rendered pages with clean semantic structure, schema for the firm "
-              "and its people, internal linking planned rather than incidental, and a "
-              "CMS that lets advisers publish without breaking the layout.",
-              "Accessibility was audited to WCAG 2.2 AA before launch &mdash; "
-              "non-negotiable for an audience that skews older."]),
+             "State that survives a busy Saturday.",
+             ["The server tracks only the online flow, and the booking states &mdash; "
+              "requested, held, confirmed, declined, expired &mdash; are explicit, because "
+              "the failure everyone remembers is a double booking. Confirmation happens "
+              "over SMS, where Matt already is, rather than in an admin panel he would "
+              "have to remember to open."]),
             ("The result",
-             "A firm that can be found and still feel private.",
-             ["The site launched with the new position, thirty pages of substantive "
-              "writing and a search foundation the firm continues to build on, without "
-              "a single tactic the partners would be uncomfortable explaining to a client.",
+             "Nobody is booked by a machine.",
+             ["Shipped with the online request flow, the SMS confirmation loop, slot holds "
+              "with expiry, and the text and phone routes alongside.",
               "<!-- Add verified commercial outcomes here once they can be evidenced. -->"]),
         ],
-        "pull": "Look too commercial and you forfeit trust. Stay silent and you are never considered.",
-        "next": "meridian-house",
+        "pull": "Nothing on the site can put a client in the chair.",
+        "next": "quik-burrito",
     },
 }
 
@@ -1285,27 +1292,14 @@ def case_study(slug):
 
     dl = "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in c["meta"])
 
-    figures = {
-        1: f"""
+    figures = {}
+    for idx, (img, caption, w, h) in c.get("figures", {}).items():
+        figures[idx] = f"""
 <figure class="figure" data-reveal>
-  <img src="{root}assets/img/work/{p['key']}-devices.svg" alt="{p['name']} — mobile screens"
-       loading="lazy" decoding="async" width="1200" height="900">
-  <figcaption>Mobile, art-directed rather than reflowed</figcaption>
-</figure>""",
-        3: f"""
-<div class="figure-pair">
-  <figure class="figure" data-reveal>
-    <img src="{root}assets/img/work/{p['key']}-type.svg" alt="{p['name']} — typography specimen"
-         loading="lazy" decoding="async" width="1200" height="900">
-    <figcaption>Typographic system</figcaption>
-  </figure>
-  <figure class="figure" data-reveal style="--d:120ms">
-    <img src="{root}assets/img/work/{p['key']}-palette.svg" alt="{p['name']} — colour and grid"
-         loading="lazy" decoding="async" width="1200" height="900">
-    <figcaption>Palette and twelve-column grid</figcaption>
-  </figure>
-</div>""",
-    }
+  <img src="{root}assets/img/work/{img}" alt="{caption}"
+       loading="lazy" decoding="async" width="{w}" height="{h}">
+  <figcaption>{caption}</figcaption>
+</figure>"""
 
     chapters = ""
     for i, (label, headline, paras) in enumerate(c["chapters"]):
@@ -1338,8 +1332,8 @@ def case_study(slug):
       </div>
     </div>
     <div class="case-hero__frame" data-reveal="mask">
-      <img src="{root}assets/img/work/{p['key']}-cover.svg" alt="{p['alt']}"
-           width="1600" height="1000" decoding="async">
+      <img src="{root}assets/img/work/{p['img']}" alt="{p['alt']}"
+           width="1600" height="1000" decoding="async" fetchpriority="high">
     </div>
     <dl class="case-meta" data-stagger="80">{dl}</dl>
   </div>
@@ -1468,9 +1462,9 @@ def pages():
         services(),
         studio(),
         contact(),
-        case_study("meridian-house"),
-        case_study("atelier-varona"),
-        case_study("calder-roe"),
+        case_study("quik-burrito"),
+        case_study("pho-thanh"),
+        case_study("ol-clip-joint"),
         privacy(),
         not_found(),
     ]
