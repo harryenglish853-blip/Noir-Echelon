@@ -20,9 +20,7 @@ sys.path.insert(0, HERE)
 SITE = "https://www.noirechelon.com"
 BRAND = "Noir Echelon"
 TAGLINE = "Web Development &amp; Digital Marketing"
-EMAIL = "studio@noirechelon.com"
-PHONE_DISPLAY = "+44 (0) 000 000 0000"
-PHONE_HREF = "+440000000000"
+EMAIL = "noirechelon.tech@icloud.com"
 
 NAV = [
     ("Work", "work.html"),

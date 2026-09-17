@@ -13,7 +13,7 @@ work that has been delivered. Replace them with real projects, real numbers and
 real contact details before the site goes live. See CONTENT.md.
 """
 
-from build import ARROW, ARROW_R, EMAIL, MONOGRAM, PHONE_DISPLAY, PHONE_HREF, SITE, STAR
+from build import ARROW, ARROW_R, EMAIL, MONOGRAM, SITE, STAR
 
 # ---------------------------------------------------------------------------
 # Shared fragments
@@ -336,13 +336,13 @@ ORG_SCHEMA = """<script type="application/ld+json">
   "url": "https://www.noirechelon.com/",
   "logo": "https://www.noirechelon.com/assets/img/icon-512.png",
   "image": "https://www.noirechelon.com/assets/img/og-cover.png",
-  "email": "studio@noirechelon.com",
+  "email": "__EMAIL__",
   "knowsAbout": [
     "Web design", "Web development", "E-commerce", "Search engine optimisation",
     "Conversion rate optimisation", "Brand identity"
   ]
 }
-</script>"""
+</script>""".replace("__EMAIL__", EMAIL)
 
 
 def home():

@@ -44,18 +44,24 @@ These are promises to prospective clients. Keep only the ones you will honour.
 that most website engagements start at a mid five-figure sum. Adjust to your
 actual floor, or remove the figure.
 
-## 4. Contact details — required
+## 4. Contact details
 
-`tools/build.py`:
+**Email — done.** `EMAIL` in `tools/build.py` is `noirechelon.tech@icloud.com`.
+It drives every mailto on the site, the structured data, and the address the
+inquiry form composes to.
 
-```python
-SITE  = "https://www.noirechelon.com"     # real domain
-EMAIL = "studio@noirechelon.com"          # real inbox
-PHONE_DISPLAY = "+44 (0) 000 000 0000"    # real number, or delete the footer row
-PHONE_HREF    = "+440000000000"
-```
+**Domain — still a placeholder.** `SITE` in `tools/build.py` is
+`https://www.noirechelon.com`, and it sets every canonical tag, the Open Graph
+URLs and `sitemap.xml`. If the live domain is different, change it there and
+re-run `python3 tools/build.py`, then update `robots.txt` and `sitemap.xml` to
+match. Canonicals pointing at a domain you do not own will hurt you in search.
 
-Also update the Instagram and LinkedIn URLs in `footer()`, or remove those links.
+**Phone — removed.** The build carried a placeholder `+44` number that nothing
+rendered any more. If you want a phone number on the site, add it back
+deliberately rather than shipping a fake one.
+
+**Social links.** The footer no longer carries Instagram or LinkedIn links.
+Add them to `footer()` in `tools/build.py` when the accounts exist.
 
 ## 5. Wire up the inquiry form — required
 
@@ -101,7 +107,8 @@ Replace it if you want the shared preview to show work instead of the logo.
 - [ ] Real projects in, placeholder projects out
 - [ ] Every claim in `FACTS` and the FAQ verified
 - [ ] Real domain in `SITE`, then `python3 tools/build.py`
-- [ ] Real email, phone and social links
+- [x] Real email wired through the site
+- [ ] Real domain in `SITE`, sitemap and robots
 - [ ] Form endpoint wired and tested end to end
 - [ ] Privacy notice reviewed
 - [ ] `sitemap.xml` and `robots.txt` pointing at the live domain
