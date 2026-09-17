@@ -673,6 +673,7 @@ ul, ol { list-style: none; }
    -------------------------------------------------------------------------- */
 .hero {
   position: relative;
+  min-height: 100vh;
   min-height: 100svh;
   display: flex; flex-direction: column; justify-content: flex-end;
   padding-top: clamp(124px, 18vh, 184px);
@@ -1022,7 +1023,7 @@ ul, ol { list-style: none; }
 /* --------------------------------------------------------------------------
    22 — 404
    -------------------------------------------------------------------------- */
-.lost { min-height: 100svh; display: grid; place-items: center; text-align: center; position: relative; overflow: hidden; }
+.lost { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; text-align: center; position: relative; overflow: hidden; }
 .lost__code {
   font-family: var(--serif); font-weight: 300;
   font-size: clamp(5rem, 22vw, 17rem); line-height: 0.82; letter-spacing: -0.03em;
@@ -1255,6 +1256,7 @@ ul, ol { list-style: none; }
 .reel__track { height: 300vh; position: relative; }
 .reel__stage {
   position: sticky; top: 0;
+  height: 100vh;
   height: 100svh;
   overflow: hidden;
   display: grid; place-items: center;
@@ -1266,7 +1268,16 @@ ul, ol { list-style: none; }
 .reel__media {
   position: relative;
   aspect-ratio: 16 / 9;
+  /* Safari < 15 has no aspect-ratio: hold the shape with a ratio box */
+}
+@supports not (aspect-ratio: 16 / 9) {
+  .reel__media { height: 0; padding-bottom: 56.25%; }
+  .reel__media > * { position: absolute; }
+}
+.reel__media {
+  width: min(100%, calc((100vh - var(--reel-inset) * 2) * 16 / 9));
   width: min(100%, calc((100svh - var(--reel-inset) * 2) * 16 / 9));
+  max-height: calc(100vh - var(--reel-inset) * 2);
   max-height: calc(100svh - var(--reel-inset) * 2);
   margin-inline: auto;
   overflow: hidden;
@@ -1340,6 +1351,13 @@ ul, ol { list-style: none; }
 }
 
 /* No JS, reduced motion, or a saver connection: one still frame, no scroll cost */
+/* Seeking unavailable (a host without range requests, a locked-down browser):
+   hold the finished frame rather than showing a stalled video */
+.reel.is-frozen .reel__video { opacity: 0; }
+.reel.is-frozen .reel__still { opacity: 1; }
+.reel.is-frozen .reel__cue,
+.reel.is-frozen .reel__meter { opacity: 0; }
+
 .reel.is-static .reel__track { height: auto; }
 .reel.is-static .reel__stage { position: relative; height: auto; padding-block: clamp(40px, 7vh, 90px); }
 .reel.is-static .reel__media { max-height: none; width: min(100%, 1200px); }

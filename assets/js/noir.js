@@ -112,7 +112,9 @@
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { passive: true, capture: true });
     window.addEventListener('resize', onScroll);
+    window.addEventListener('orientationchange', onScroll);
     window.addEventListener('load', sweep);
     window.setTimeout(sweep, 500);
     if (document.fonts && document.fonts.ready) {
@@ -368,8 +370,15 @@
     var load = function () {
       if (loaded) return;
       loaded = true;
+      video.preload = 'auto';
       video.src = source;
       video.load();
+      // iOS commonly ignores preload and fetches nothing until play() is
+      // called, so nudge it: start muted playback, then immediately pause.
+      var kick = video.play();
+      if (kick && kick.then) {
+        kick.then(function () { video.pause(); }).catch(function () {});
+      }
     };
 
     video.addEventListener('loadedmetadata', function () {
@@ -414,11 +423,24 @@
       return p < 0.26 ? 'start' : (p < 0.78 ? 'mid' : 'end');
     };
 
+    var stalled = 0;
+    var frozen = false;
+
     var tick = function () {
       // Ease toward the scroll position so flicks feel like film, not a jump cut
       current += (target - current) * 0.16;
       if (ready && Math.abs(current - video.currentTime) > 1 / 48) {
         try { video.currentTime = current; } catch (e) {}
+        // Asking for a second or more of playhead and getting nothing back
+        // means this browser or host cannot seek; fall back gracefully.
+        if (!frozen && current > 1 && video.currentTime < 0.25) {
+          if (++stalled > 90) {
+            frozen = true;
+            root.classList.add('is-frozen');
+          }
+        } else if (video.currentTime > 0.25) {
+          stalled = 0;
+        }
       }
       if (Math.abs(target - current) > 0.004) {
         raf = window.requestAnimationFrame(tick);
@@ -447,7 +469,9 @@
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { passive: true, capture: true });
     window.addEventListener('resize', onScroll);
+    window.addEventListener('orientationchange', onScroll);
     draw();
   }
 
