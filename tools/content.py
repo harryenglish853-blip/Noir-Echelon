@@ -1364,6 +1364,130 @@ def privacy():
     return meta, body
 
 
+def terms():
+    meta = {
+        "path": "terms.html",
+        "active": "",
+        "title": "Terms of Use — Noir Echelon",
+        "description": "The terms on which this website is provided, including "
+                       "limitation of liability, intellectual property and the status "
+                       "of anything published here.",
+        "robots": "noindex, follow",
+        "cta": False,
+    }
+    body = f"""
+<section class="page-hero">
+  <div class="shell">
+    <p class="eyebrow is-in"><span class="idx">&mdash;</span> Legal</p>
+    <div class="grid page-hero__title">
+      <div class="col-8"><h1 class="h1 is-in">{lines('Terms of use')}</h1></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--tight">
+  <div class="shell">
+    <div class="rule"></div>
+    <div class="grid mt-xl">
+      <div class="col-7 start-4">
+        <!-- DRAFT. Written to be readable, not reviewed by a lawyer. Have this
+             checked against the law where you and your clients operate before
+             the site goes live. See NOTICE.md. -->
+        <p class="body-copy">
+          These terms govern your use of this website. They are not the contract
+          for any engagement &mdash; that is a separate written agreement, and where
+          the two differ, the engagement agreement governs.
+        </p>
+
+        <h2 class="h3 mt-l">The website is provided as it is</h2>
+        <p class="body-copy">
+          We take care to keep this site accurate and available, but we do not
+          warrant that it will be uninterrupted, error-free, or that anything on it
+          is complete or current. Nothing here is professional advice, and nothing
+          here is an offer capable of acceptance.
+        </p>
+
+        <h2 class="h3 mt-l">Limitation of liability</h2>
+        <p class="body-copy">
+          To the fullest extent the law allows, Noir Echelon is not liable for any
+          indirect, incidental, special or consequential loss arising from your use
+          of this website, including lost profits, lost data or business
+          interruption, whether or not we were advised such loss was possible.
+        </p>
+        <p class="body-copy">
+          Nothing in these terms limits liability for death or personal injury
+          caused by negligence, for fraud, or for anything else that cannot lawfully
+          be limited.
+        </p>
+
+        <h2 class="h3 mt-l">Timings, prices and figures</h2>
+        <p class="body-copy">
+          Any timeframe, price range or performance figure published on this site is
+          indicative and describes what is typical, not what is promised. What you
+          are owed on a project is set out in that project's written scope and
+          price, agreed before work begins.
+        </p>
+
+        <h2 class="h3 mt-l">Work shown here</h2>
+        <p class="body-copy">
+          Projects are published to describe work carried out. Client names, logos
+          and trade marks remain the property of those businesses and appear here to
+          identify the work, not to imply that they endorse or are affiliated with
+          anything beyond that engagement. If you are a client and would like your
+          project removed, write to us and we will take it down.
+        </p>
+        <p class="body-copy">
+          Where a case study describes an outcome, it describes what was delivered.
+          Nothing here should be read as a prediction of results for anyone else.
+        </p>
+
+        <h2 class="h3 mt-l">Our material</h2>
+        <p class="body-copy">
+          The design, code, text and images on this site, other than client material
+          and third-party fonts, belong to Noir Echelon. You may view and share
+          pages; you may not copy the site or substantial parts of it for your own
+          commercial use without permission.
+        </p>
+        <p class="body-copy">
+          Typefaces are used under the SIL Open Font License, and their licences are
+          distributed with them.
+        </p>
+
+        <h2 class="h3 mt-l">What you send us</h2>
+        <p class="body-copy">
+          When you submit an inquiry you confirm the information is yours to send
+          and is accurate. Do not send confidential material through the form before
+          we have an agreement in place. How we handle what you send is set out in
+          the <a class="gold" href="privacy.html">privacy notice</a>.
+        </p>
+
+        <h2 class="h3 mt-l">Links out</h2>
+        <p class="body-copy">
+          Where this site links to another, we are not responsible for that site's
+          content, availability or handling of your data.
+        </p>
+
+        <h2 class="h3 mt-l">Changes</h2>
+        <p class="body-copy">
+          We may update these terms. The version published here is the one that
+          applies.
+        </p>
+
+        <h2 class="h3 mt-l">Contact</h2>
+        <p class="body-copy">
+          Questions about these terms: <a class="gold" href="mailto:{EMAIL}">{EMAIL}</a>.
+        </p>
+
+        <p class="dim mt-l" style="font-size:var(--fs-small)">
+          Last updated on publication.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>"""
+    return meta, body
+
+
 def not_found():
     meta = {
         "path": "404.html",
@@ -1406,5 +1530,6 @@ def pages():
         case_study("quik-burrito"),
         case_study("ol-clip-joint"),
         privacy(),
+        terms(),
         not_found(),
     ]

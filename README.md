@@ -81,6 +81,7 @@ services.html           Services + investment + FAQ
 studio.html             Studio, principles, process
 contact.html            Inquiry form
 privacy.html            Privacy notice (noindex)
+terms.html              Terms of use (noindex)
 404.html
 work/*.html             Case studies
 
@@ -177,6 +178,9 @@ supports them (Vercel, Netlify, Cloudflare, S3, nginx); Python's
   Twitter cards, `ProfessionalService` structured data, `sitemap.xml`,
   `robots.txt`.
 - **Privacy** — no trackers, no cookie banner, no third-party requests at all.
+- **Licensing** — no third-party code of any kind. Fonts are SIL OFL with their
+  licences bundled at `assets/fonts/*-OFL.txt`. See **[NOTICE.md](NOTICE.md)**
+  for full asset provenance and the questions still open before launch.
 
 Verified in Chromium at 1440, 1280 and 390 px: no console errors, no horizontal
 overflow, no unrevealed content above the fold, and every interaction

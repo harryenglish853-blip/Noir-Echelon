@@ -97,7 +97,16 @@ The two cards in the Client Experience section are written as visible
 placeholders. Replace them with verified reviews (`TESTIMONIALS` in
 `tools/content.py`) or delete the section. Never publish an invented quote.
 
-## 6. Privacy notice — have it reviewed
+## 6. Legal, licensing and provenance
+
+**Read [NOTICE.md](NOTICE.md) before launch.** It inventories every asset the
+site ships, states what is settled (code written from scratch, zero third-party
+libraries, zero external requests, fonts under the SIL OFL with their licences
+now bundled) and lists what is not — permission to publish client work, rights
+in the photograph of Matt, the brand reveal video's licence, and the status of
+the Noir Echelon lockup.
+
+## 6b. Privacy and terms — have them reviewed
 
 `privacy.html` is written as a readable starting point, not legal advice. Have it
 checked against your jurisdiction, and make its claims true — it currently states
@@ -119,7 +128,8 @@ Replace it if you want the shared preview to show work instead of the logo.
 - [x] Real email wired through the site
 - [ ] Real domain in `SITE`, sitemap and robots
 - [ ] Form endpoint wired and tested end to end
-- [ ] Privacy notice reviewed
+- [ ] NOTICE.md worked through; client permissions obtained in writing
+- [ ] Privacy notice and terms reviewed by a lawyer
 - [ ] `sitemap.xml` and `robots.txt` pointing at the live domain
 - [ ] Analytics chosen (and the privacy notice updated to match)
 - [ ] HTTPS with HSTS, 404 handler mapped to `404.html`

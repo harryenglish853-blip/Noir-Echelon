@@ -200,6 +200,7 @@ def footer(root):
         <a href="{root}studio.html">Studio</a>
         <a href="{root}contact.html">Contact</a>
         <a href="{root}privacy.html">Privacy</a>
+        <a href="{root}terms.html">Terms</a>
       </nav>
       <span class="foot-base__end">Designed to elevate</span>
     </div>
