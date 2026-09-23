@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.noirechelon.com/sitemap.xml
+Sitemap: https://noirechelon.tech/sitemap.xml

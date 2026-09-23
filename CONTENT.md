@@ -59,11 +59,17 @@ actual floor, or remove the figure.
 It drives every mailto on the site, the structured data, and the address the
 inquiry form composes to.
 
-**Domain — still a placeholder.** `SITE` in `tools/build.py` is
-`https://www.noirechelon.com`, and it sets every canonical tag, the Open Graph
-URLs and `sitemap.xml`. If the live domain is different, change it there and
-re-run `python3 tools/build.py`, then update `robots.txt` and `sitemap.xml` to
-match. Canonicals pointing at a domain you do not own will hurt you in search.
+**Domain — done.** `SITE` in `tools/build.py` is `https://noirechelon.tech`.
+It is the single source for every canonical tag, the Open Graph URLs, the
+structured data and `sitemap.xml`, all of which the build now generates — so
+changing that one line and re-running `python3 tools/build.py` moves the whole
+site. `sitemap.xml` and `robots.txt` used to be hand-maintained, which is how
+they came to disagree with the pages; they are generated now and cannot drift.
+
+The sitemap lists only indexable pages. `privacy.html`, `terms.html` and
+`404.html` are excluded deliberately — the first two carry `noindex` while they
+are unreviewed drafts. When a lawyer has signed them off, drop them from
+`SITEMAP_SKIP` in `tools/build.py` and remove the noindex.
 
 **Phone — removed.** The build carried a placeholder `+44` number that nothing
 rendered any more. If you want a phone number on the site, add it back

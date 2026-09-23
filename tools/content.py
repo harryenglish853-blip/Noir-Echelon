@@ -347,16 +347,16 @@ ORG_SCHEMA = """<script type="application/ld+json">
   "@type": "ProfessionalService",
   "name": "Noir Echelon",
   "description": "Premium web design, development and digital marketing.",
-  "url": "https://www.noirechelon.com/",
-  "logo": "https://www.noirechelon.com/assets/img/icon-512.png",
-  "image": "https://www.noirechelon.com/assets/img/og-cover.png",
+  "url": "__SITE__/",
+  "logo": "__SITE__/assets/img/icon-512.png",
+  "image": "__SITE__/assets/img/og-cover.png",
   "email": "__EMAIL__",
   "knowsAbout": [
     "Web design", "Web development", "E-commerce", "Search engine optimisation",
     "Conversion rate optimisation", "Brand identity"
   ]
 }
-</script>""".replace("__EMAIL__", EMAIL)
+</script>""".replace("__EMAIL__", EMAIL).replace("__SITE__", SITE)
 
 
 def home():

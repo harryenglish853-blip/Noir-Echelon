@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 
-SITE = "https://www.noirechelon.com"
+SITE = "https://noirechelon.tech"
 BRAND = "Noir Echelon"
 TAGLINE = "Web Development &amp; Digital Marketing"
 EMAIL = "noirechelon.tech@icloud.com"
@@ -283,12 +283,56 @@ def write(path, html):
     print("  {:<42} {:>7,} bytes".format(path, len(html.encode("utf-8"))))
 
 
+# Pages that should never appear in the sitemap: the legal drafts carry
+# noindex, and 404 is not a destination.
+SITEMAP_SKIP = {"privacy.html", "terms.html", "404.html"}
+
+SITEMAP_PRIORITY = {
+    "index.html": ("weekly", "1.0"),
+    "work.html": ("weekly", "0.9"),
+    "services.html": ("monthly", "0.9"),
+    "studio.html": ("monthly", "0.8"),
+    "contact.html": ("monthly", "0.8"),
+}
+
+
+def sitemap(paths):
+    """Built from the same page list the site is, so the two cannot drift."""
+    rows = []
+    for path in paths:
+        if path in SITEMAP_SKIP:
+            continue
+        loc = SITE + "/" if path == "index.html" else SITE + "/" + path
+        freq, prio = SITEMAP_PRIORITY.get(path, ("monthly", "0.7"))
+        rows.append(
+            "  <url>\n"
+            f"    <loc>{loc}</loc>\n"
+            f"    <changefreq>{freq}</changefreq>\n"
+            f"    <priority>{prio}</priority>\n"
+            "  </url>"
+        )
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        + "\n".join(rows)
+        + "\n</urlset>\n"
+    )
+
+
+def robots():
+    return f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n"
+
+
 def main():
     import content
     print("Building Noir Echelon —")
+    paths = []
     for spec in content.pages():
         meta, body = spec
         write(meta["path"], page(meta, body, meta.get("active"), meta.get("root", "")))
+        paths.append(meta["path"])
+    write("sitemap.xml", sitemap(paths))
+    write("robots.txt", robots())
     print("Done.")
 
 
