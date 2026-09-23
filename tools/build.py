@@ -42,8 +42,9 @@ ARROW_R = '<span class="arrow" aria-hidden="true">&#8594;</span>'
 
 
 
-# Offsets are read from the browser's own tz database at runtime, so the strip
-# stays correct through every daylight-saving change without a redeploy.
+# Offsets and zone abbreviations are both read from the browser's own tz
+# database at runtime, so the strip stays correct through every daylight-saving
+# change without a redeploy.
 CLOCKS = [
     ("London", "Europe/London"),
     ("Arizona", "America/Phoenix"),
@@ -57,12 +58,14 @@ def clock_strip():
     cells = ""
     for city, tz in CLOCKS:
         cells += f"""
-      <div class="clock">
-        <p class="clock__city">{city}</p>
-        <p class="clock__time" data-tz="{tz}"><span class="sr-only">Local time in {city}</span>--:--:--</p>
-        <p class="clock__zone" data-zone></p>
-      </div>"""
-    return f'<div class="clocks">{cells}\n    </div>'
+        <div class="clock">
+          <p class="clock__city">{city}</p>
+          <p class="clock__read">
+            <span class="clock__zone" data-zone></span>
+            <span class="clock__time" data-tz="{tz}"><span class="sr-only">Local time in {city}</span>--:-- --</span>
+          </p>
+        </div>"""
+    return f'<div class="clocks">{cells}\n      </div>'
 
 
 def head(meta, root):
@@ -208,7 +211,20 @@ def footer(root):
          sizes="100vw" alt="" width="1600" height="900" loading="lazy" decoding="async">
   </div>
   <div class="shell">
+    <div class="foot-eyebrow">
+      <p class="foot-eyebrow__label">Get in touch</p>
+      <span class="foot-eyebrow__rule" aria-hidden="true"></span>
+    </div>
+
     {clock_strip()}
+
+    <div class="foot-sign" data-sign>
+      <p class="foot-sign__name">Harry English</p>
+      <span class="foot-sign__rule" aria-hidden="true"></span>
+      <p class="foot-sign__line">Let&rsquo;s build something worth being seen in.</p>
+    </div>
+
+    <div class="foot-rule" aria-hidden="true"></div>
 
     <div class="foot-head">
       <div class="foot-id">
@@ -218,7 +234,10 @@ def footer(root):
           <p class="foot-id__tag">Web development &middot; Digital marketing</p>
         </div>
       </div>
-      <a class="to-top" href="#top">Back to top <span class="arrow" aria-hidden="true">&#8593;</span></a>
+      <div class="foot-reach">
+        <a class="foot-mail" href="mailto:{EMAIL}">{EMAIL}</a>
+        <a class="to-top" href="#top">Back to top <span class="arrow" aria-hidden="true">&#8593;</span></a>
+      </div>
     </div>
 
     <div class="foot-rule" aria-hidden="true"></div>
@@ -233,13 +252,7 @@ def footer(root):
         <a href="{root}privacy.html">Privacy</a>
         <a href="{root}terms.html">Terms</a>
       </nav>
-      <span class="foot-base__end">Designed to elevate</span>
-    </div>
-
-    <div class="foot-sign" data-sign>
-      <p class="foot-sign__name">Harry English</p>
-      <div class="foot-sign__rule" aria-hidden="true"></div>
-      <p class="foot-sign__role">Founder &middot; {BRAND}</p>
+      <span class="foot-base__end" data-localtime></span>
     </div>
   </div>
 </footer>

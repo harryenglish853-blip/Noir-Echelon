@@ -610,56 +610,89 @@
      from the same source, so BST/EDT and their winter counterparts are always
      right; Arizona sits on America/Phoenix, which keeps MST year round.
      ---------------------------------------------------------------------- */
+  // Minutes that `tz` sits ahead of UTC at `date`, read out of the tz database
+  function zoneOffset(tz, date) {
+    var dtf, parts, o = {}, i, asUTC;
+    try {
+      dtf = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz, hour12: false,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+      parts = dtf.formatToParts(date);
+    } catch (e) { return null; }
+    for (i = 0; i < parts.length; i++) o[parts[i].type] = parts[i].value;
+    asUTC = Date.UTC(+o.year, +o.month - 1, +o.day,
+                     o.hour === '24' ? 0 : +o.hour, +o.minute, +o.second);
+    return Math.round((asUTC - date.getTime()) / 60000);
+  }
+
+  // Standard and daylight names per zone. Which of the two is correct right now
+  // is decided from the tz database below, never assumed — so this stays right
+  // through every clock change without anyone redeploying the site.
+  var ZONE_NAMES = {
+    'Europe/London':    ['GMT', 'BST'],
+    'America/Phoenix':  ['MST', 'MST'],
+    'America/New_York': ['EST', 'EDT'],
+    'Asia/Dubai':       ['GST', 'GST'],
+    'Asia/Manila':      ['PHT', 'PHT']
+  };
+
+  function zoneLabel(tz, now) {
+    var cur = zoneOffset(tz, now);
+    if (cur === null) return '';
+    var y = now.getUTCFullYear();
+    var jan = zoneOffset(tz, new Date(Date.UTC(y, 0, 1)));
+    var jul = zoneOffset(tz, new Date(Date.UTC(y, 6, 1)));
+    var names = ZONE_NAMES[tz];
+    if (names && jan !== null && jul !== null) {
+      // Standard time is the smaller of the two; works either hemisphere
+      return cur > Math.min(jan, jul) ? names[1] : names[0];
+    }
+    // Unknown zone: fall back to a plain offset, which is never wrong
+    var sign = cur < 0 ? '\u2212' : '+';
+    var abs = Math.abs(cur);
+    var hh = Math.floor(abs / 60);
+    var mm = abs % 60;
+    return 'UTC' + sign + hh + (mm ? ':' + (mm < 10 ? '0' : '') + mm : '');
+  }
+
   function clocks() {
     var cells = $$('[data-tz]');
-    if (!cells.length) return;
+    var local = $('[data-localtime]');
+    if (!cells.length && !local) return;
 
     // Build each formatter once; making them per tick is needlessly expensive
     var made = [];
     cells.forEach(function (el) {
       var tz = el.getAttribute('data-tz');
       var fmt = null;
-      var zoneFmt = null;
       try {
-        fmt = new Intl.DateTimeFormat('en-GB', {
-          timeZone: tz, hour: '2-digit', minute: '2-digit',
-          second: '2-digit', hour12: false
+        fmt = new Intl.DateTimeFormat('en-US', {
+          timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: true
         });
         fmt.format(new Date());
       } catch (e) {
         fmt = null;
       }
-      try {
-        zoneFmt = new Intl.DateTimeFormat('en-US', {
-          timeZone: tz, timeZoneName: 'shortOffset'
-        });
-        zoneFmt.formatToParts(new Date());
-      } catch (e) {
-        zoneFmt = null;
-      }
       var label = $('.sr-only', el);
-      var zoneEl = el.parentNode ? $('[data-zone]', el.parentNode) : null;
+      var row = el.parentNode ? el.parentNode.parentNode : null;
       made.push({
-        el: el, fmt: fmt, zoneFmt: zoneFmt, zoneEl: zoneEl,
+        el: el, tz: tz, fmt: fmt,
+        zoneEl: row ? $('[data-zone]', row) : null,
         label: label ? label.outerHTML : ''
       });
     });
 
-    // 'GMT+8' from the tz database, shown as 'UTC+8' so all five read alike
-    var offsetOf = function (c) {
-      if (!c.zoneFmt) return '';
-      var parts, i;
-      try { parts = c.zoneFmt.formatToParts(new Date()); } catch (e) { return ''; }
-      for (i = 0; i < parts.length; i++) {
-        if (parts[i].type === 'timeZoneName') {
-          return parts[i].value
-            .replace(/^GMT/, 'UTC')
-            .replace(/^UTC$/, 'UTC+0')
-            .replace('-', '\u2212'); // true minus, not a hyphen
-        }
-      }
-      return '';
-    };
+    // The viewer's own time, rather than a studio location the site does not claim
+    var localFmt = null;
+    if (local) {
+      try {
+        localFmt = new Intl.DateTimeFormat('en-US', {
+          hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true
+        });
+      } catch (e) { localFmt = null; }
+    }
 
     var render = function () {
       var now = new Date();
@@ -667,10 +700,13 @@
         if (!c.fmt) { c.el.innerHTML = c.label + '&mdash;'; return; }
         c.el.innerHTML = c.label + c.fmt.format(now);
         if (c.zoneEl) {
-          var off = offsetOf(c);
-          if (c.zoneEl.textContent !== off) c.zoneEl.textContent = off;
+          var z = zoneLabel(c.tz, now);
+          if (c.zoneEl.textContent !== z) c.zoneEl.textContent = z;
         }
       });
+      if (local && localFmt) {
+        local.textContent = localFmt.format(now) + ' \u2014 your local time';
+      }
     };
 
     render();

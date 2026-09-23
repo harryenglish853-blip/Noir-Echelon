@@ -205,33 +205,56 @@
          sizes="100vw" alt="" width="1600" height="900" loading="lazy" decoding="async">
   </div>
   <div class="shell">
-    <div class="clocks">
-      <div class="clock">
-        <p class="clock__city">London</p>
-        <p class="clock__time" data-tz="Europe/London"><span class="sr-only">Local time in London</span>--:--:--</p>
-        <p class="clock__zone" data-zone></p>
-      </div>
-      <div class="clock">
-        <p class="clock__city">Arizona</p>
-        <p class="clock__time" data-tz="America/Phoenix"><span class="sr-only">Local time in Arizona</span>--:--:--</p>
-        <p class="clock__zone" data-zone></p>
-      </div>
-      <div class="clock">
-        <p class="clock__city">New York</p>
-        <p class="clock__time" data-tz="America/New_York"><span class="sr-only">Local time in New York</span>--:--:--</p>
-        <p class="clock__zone" data-zone></p>
-      </div>
-      <div class="clock">
-        <p class="clock__city">Dubai</p>
-        <p class="clock__time" data-tz="Asia/Dubai"><span class="sr-only">Local time in Dubai</span>--:--:--</p>
-        <p class="clock__zone" data-zone></p>
-      </div>
-      <div class="clock">
-        <p class="clock__city">Manila</p>
-        <p class="clock__time" data-tz="Asia/Manila"><span class="sr-only">Local time in Manila</span>--:--:--</p>
-        <p class="clock__zone" data-zone></p>
-      </div>
+    <div class="foot-eyebrow">
+      <p class="foot-eyebrow__label">Get in touch</p>
+      <span class="foot-eyebrow__rule" aria-hidden="true"></span>
     </div>
+
+    <div class="clocks">
+        <div class="clock">
+          <p class="clock__city">London</p>
+          <p class="clock__read">
+            <span class="clock__zone" data-zone></span>
+            <span class="clock__time" data-tz="Europe/London"><span class="sr-only">Local time in London</span>--:-- --</span>
+          </p>
+        </div>
+        <div class="clock">
+          <p class="clock__city">Arizona</p>
+          <p class="clock__read">
+            <span class="clock__zone" data-zone></span>
+            <span class="clock__time" data-tz="America/Phoenix"><span class="sr-only">Local time in Arizona</span>--:-- --</span>
+          </p>
+        </div>
+        <div class="clock">
+          <p class="clock__city">New York</p>
+          <p class="clock__read">
+            <span class="clock__zone" data-zone></span>
+            <span class="clock__time" data-tz="America/New_York"><span class="sr-only">Local time in New York</span>--:-- --</span>
+          </p>
+        </div>
+        <div class="clock">
+          <p class="clock__city">Dubai</p>
+          <p class="clock__read">
+            <span class="clock__zone" data-zone></span>
+            <span class="clock__time" data-tz="Asia/Dubai"><span class="sr-only">Local time in Dubai</span>--:-- --</span>
+          </p>
+        </div>
+        <div class="clock">
+          <p class="clock__city">Manila</p>
+          <p class="clock__read">
+            <span class="clock__zone" data-zone></span>
+            <span class="clock__time" data-tz="Asia/Manila"><span class="sr-only">Local time in Manila</span>--:-- --</span>
+          </p>
+        </div>
+      </div>
+
+    <div class="foot-sign" data-sign>
+      <p class="foot-sign__name">Harry English</p>
+      <span class="foot-sign__rule" aria-hidden="true"></span>
+      <p class="foot-sign__line">Let&rsquo;s build something worth being seen in.</p>
+    </div>
+
+    <div class="foot-rule" aria-hidden="true"></div>
 
     <div class="foot-head">
       <div class="foot-id">
@@ -241,7 +264,10 @@
           <p class="foot-id__tag">Web development &middot; Digital marketing</p>
         </div>
       </div>
-      <a class="to-top" href="#top">Back to top <span class="arrow" aria-hidden="true">&#8593;</span></a>
+      <div class="foot-reach">
+        <a class="foot-mail" href="mailto:noirechelon.tech@icloud.com">noirechelon.tech@icloud.com</a>
+        <a class="to-top" href="#top">Back to top <span class="arrow" aria-hidden="true">&#8593;</span></a>
+      </div>
     </div>
 
     <div class="foot-rule" aria-hidden="true"></div>
@@ -256,13 +282,7 @@
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
       </nav>
-      <span class="foot-base__end">Designed to elevate</span>
-    </div>
-
-    <div class="foot-sign" data-sign>
-      <p class="foot-sign__name">Harry English</p>
-      <div class="foot-sign__rule" aria-hidden="true"></div>
-      <p class="foot-sign__role">Founder &middot; Noir Echelon</p>
+      <span class="foot-base__end" data-localtime></span>
     </div>
   </div>
 </footer>
