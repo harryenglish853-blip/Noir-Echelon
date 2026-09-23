@@ -41,6 +41,30 @@ ARROW = '<span class="arrow" aria-hidden="true">&#8599;</span>'
 ARROW_R = '<span class="arrow" aria-hidden="true">&#8594;</span>'
 
 
+
+# Offsets are read from the browser's own tz database at runtime, so the strip
+# stays correct through every daylight-saving change without a redeploy.
+CLOCKS = [
+    ("London", "Europe/London"),
+    ("Arizona", "America/Phoenix"),
+    ("New York", "America/New_York"),
+    ("Dubai", "Asia/Dubai"),
+    ("Manila", "Asia/Manila"),
+]
+
+
+def clock_strip():
+    cells = ""
+    for city, tz in CLOCKS:
+        cells += f"""
+      <div class="clock">
+        <p class="clock__city">{city}</p>
+        <p class="clock__time" data-tz="{tz}"><span class="sr-only">Local time in {city}</span>--:--:--</p>
+        <p class="clock__zone" data-zone></p>
+      </div>"""
+    return f'<div class="clocks">{cells}\n    </div>'
+
+
 def head(meta, root):
     """Document head. `root` is the relative prefix to the site root."""
     title = meta["title"]
@@ -178,7 +202,14 @@ def cta_band(root, title=None, note=None):
 def footer(root):
     return f"""
 <footer class="site-foot">
+  <div class="site-foot__scene" aria-hidden="true">
+    <img src="{root}assets/img/foot-scene.jpg"
+         srcset="{root}assets/img/foot-scene-900.jpg 900w, {root}assets/img/foot-scene.jpg 1600w"
+         sizes="100vw" alt="" width="1600" height="900" loading="lazy" decoding="async">
+  </div>
   <div class="shell">
+    {clock_strip()}
+
     <div class="foot-head">
       <div class="foot-id">
         <span class="foot-id__mark">{MONOGRAM}</span>
@@ -203,6 +234,12 @@ def footer(root):
         <a href="{root}terms.html">Terms</a>
       </nav>
       <span class="foot-base__end">Designed to elevate</span>
+    </div>
+
+    <div class="foot-sign" data-sign>
+      <p class="foot-sign__name">Harry English</p>
+      <div class="foot-sign__rule" aria-hidden="true"></div>
+      <p class="foot-sign__role">Founder &middot; {BRAND}</p>
     </div>
   </div>
 </footer>

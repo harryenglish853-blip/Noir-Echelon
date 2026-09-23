@@ -42,11 +42,19 @@ Two consequences worth knowing:
 |---|---|---|
 | Inter | SIL Open Font License 1.1 | 2020 The Inter Project Authors |
 | Playfair Display | SIL Open Font License 1.1 | 2017 The Playfair Display Project Authors |
+| Mrs Saint Delafield | SIL Open Font License 1.1 | 2011 Brian J. Bonislawsky, Astigmatic |
 
-Both licences permit self-hosting and commercial use. The OFL requires the
+All three licences permit self-hosting and commercial use. The OFL requires the
 licence travel with the font files, which was **not** the case until now —
-the full texts are bundled at `assets/fonts/Inter-OFL.txt` and
-`assets/fonts/PlayfairDisplay-OFL.txt`. Keep them there when you deploy.
+the full texts are bundled at `assets/fonts/Inter-OFL.txt`,
+`assets/fonts/PlayfairDisplay-OFL.txt` and
+`assets/fonts/MrsSaintDelafield-OFL.txt`. Keep them there when you deploy.
+
+Mrs Saint Delafield is the script face used for the "Harry English" signature in
+the footer. It is a **typeface**, not a scan or trace of a handwritten
+signature, so it carries no third-party handwriting rights — but note that it is
+also not a legally distinctive mark. It is a decorative sign-off, not a
+signature that should ever be presented as executing a document.
 
 Playfair Display carries a Reserved Font Name. You may use and redistribute it;
 you may not release a *modified* version of the font under that name. The files
@@ -95,6 +103,28 @@ to the plan you were on when you generated it. Some tools restrict commercial
 use on free tiers, some require attribution, and some grant full rights. This is
 a five-minute check of the terms you already agreed to, and worth doing before
 the site fronts a business.
+
+### 3b. The footer background image
+
+`assets/img/foot-scene.jpg` (and its 900px variant) is resized and compressed
+from the image you supplied for the footer. It appears to be AI-generated, which
+puts it in the same category as the reveal video above: **check the generator's
+terms for commercial use** on the plan you produced it under.
+
+Two further points, because this image is different in kind from the video:
+
+- It **depicts people**. Faces produced by an image generator are usually not
+  real individuals, but they can resemble one closely enough to draw a
+  complaint, and some generators' terms specifically bar using outputs to
+  suggest a person's endorsement. Nothing on the page names or endorses anyone,
+  which is the right side of that line.
+- As noted in §4 below, purely machine-generated images may not be protectable
+  by copyright in several jurisdictions. You can use it; you may not be able to
+  stop someone else using the same output.
+
+If either check comes back unfavourable, the footer degrades cleanly — removing
+the `.site-foot__scene` block leaves a plain black footer with the clocks and
+signature intact.
 
 ### 4. The Noir Echelon lockup
 

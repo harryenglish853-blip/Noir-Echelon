@@ -604,6 +604,116 @@
   }
 
   /* ----------------------------------------------------------------------
+     World clocks
+     Real local time per city, straight from the browser's own timezone
+     database — no API, no key, nothing to go stale. The offset label is read
+     from the same source, so BST/EDT and their winter counterparts are always
+     right; Arizona sits on America/Phoenix, which keeps MST year round.
+     ---------------------------------------------------------------------- */
+  function clocks() {
+    var cells = $$('[data-tz]');
+    if (!cells.length) return;
+
+    // Build each formatter once; making them per tick is needlessly expensive
+    var made = [];
+    cells.forEach(function (el) {
+      var tz = el.getAttribute('data-tz');
+      var fmt = null;
+      var zoneFmt = null;
+      try {
+        fmt = new Intl.DateTimeFormat('en-GB', {
+          timeZone: tz, hour: '2-digit', minute: '2-digit',
+          second: '2-digit', hour12: false
+        });
+        fmt.format(new Date());
+      } catch (e) {
+        fmt = null;
+      }
+      try {
+        zoneFmt = new Intl.DateTimeFormat('en-US', {
+          timeZone: tz, timeZoneName: 'shortOffset'
+        });
+        zoneFmt.formatToParts(new Date());
+      } catch (e) {
+        zoneFmt = null;
+      }
+      var label = $('.sr-only', el);
+      var zoneEl = el.parentNode ? $('[data-zone]', el.parentNode) : null;
+      made.push({
+        el: el, fmt: fmt, zoneFmt: zoneFmt, zoneEl: zoneEl,
+        label: label ? label.outerHTML : ''
+      });
+    });
+
+    // 'GMT+8' from the tz database, shown as 'UTC+8' so all five read alike
+    var offsetOf = function (c) {
+      if (!c.zoneFmt) return '';
+      var parts, i;
+      try { parts = c.zoneFmt.formatToParts(new Date()); } catch (e) { return ''; }
+      for (i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'timeZoneName') {
+          return parts[i].value
+            .replace(/^GMT/, 'UTC')
+            .replace(/^UTC$/, 'UTC+0')
+            .replace('-', '\u2212'); // true minus, not a hyphen
+        }
+      }
+      return '';
+    };
+
+    var render = function () {
+      var now = new Date();
+      made.forEach(function (c) {
+        if (!c.fmt) { c.el.innerHTML = c.label + '&mdash;'; return; }
+        c.el.innerHTML = c.label + c.fmt.format(now);
+        if (c.zoneEl) {
+          var off = offsetOf(c);
+          if (c.zoneEl.textContent !== off) c.zoneEl.textContent = off;
+        }
+      });
+    };
+
+    render();
+    // Tick on the second, and re-sync after a tab has been backgrounded
+    window.setInterval(render, 1000);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) render();
+    });
+  }
+
+  /* ----------------------------------------------------------------------
+     Signature
+     Wipes in left to right as the foot of the page arrives.
+     ---------------------------------------------------------------------- */
+  function signature() {
+    var sign = $('[data-sign]');
+    if (!sign) return;
+
+    if (reduced.matches) { sign.classList.add('is-in'); return; }
+
+    var ticking = false;
+    var show = function () {
+      var r = sign.getBoundingClientRect();
+      var h = window.innerHeight || document.documentElement.clientHeight;
+      if (r.top < h * 0.92 && r.bottom > 0) {
+        sign.classList.add('is-in');
+        window.removeEventListener('scroll', onScroll);
+        window.removeEventListener('resize', onScroll);
+      }
+      ticking = false;
+    };
+    var onScroll = function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(show);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+    window.addEventListener('resize', onScroll);
+    show();
+  }
+
+  /* ----------------------------------------------------------------------
      Misc
      ---------------------------------------------------------------------- */
   function year() {
@@ -620,6 +730,8 @@
     accordion();
     enquiry();
     reel();
+    clocks();
+    signature();
     year();
     depth();
     magnetic();
