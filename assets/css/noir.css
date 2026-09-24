@@ -1726,3 +1726,39 @@ ul, ol { list-style: none; }
    weight than the same elements do on flat black. Measured, not guessed. */
 .reel .reel__caption .eyebrow,
 .reel .reel__cue { color: var(--fg-2); }
+
+/* --------------------------------------------------------------------------
+   34 — TOUCH TARGET SIZE
+   The footer's links are small-caps micro-type only ~18px tall, which is under
+   the 24px minimum a finger needs (WCAG 2.2 SC 2.5.8). These give each one a
+   24px hit box centred on its text, so the target grows without the type
+   moving. Inline links inside a sentence are exempt and are left alone.
+   -------------------------------------------------------------------------- */
+.foot-base nav a,
+.to-top,
+.foot-mail,
+.menu__foot a,
+.brand,
+.menu-btn {
+  min-height: 24px;
+}
+.foot-base nav a,
+.to-top,
+.foot-mail,
+.menu__foot a {
+  display: inline-flex; align-items: center;
+}
+/* .brand is already flex; .menu-btn is a button box — both just need the
+   height floor, so their own layout is left alone. */
+.menu-btn { align-items: center; }
+/* The rule under the mail link has to follow the text, not the taller hit
+   box, so it is a text underline rather than a border on the element. */
+.foot-mail {
+  padding-bottom: 0; border-bottom: 0;
+  text-decoration: underline;
+  text-decoration-color: var(--hair-2);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 260ms var(--ease), text-decoration-color 260ms var(--ease);
+}
+.foot-mail:hover { text-decoration-color: var(--accent); }

@@ -172,6 +172,12 @@ supports them (Vercel, Netlify, Cloudflare, S3, nginx); Python's
   controls, a visible champagne focus ring, a skip link, a focus-trapped menu,
   live-region form feedback. Every text colour clears WCAG AA on both the noir
   and paper backgrounds (4.96:1 at the lowest, against a 4.5:1 requirement).
+  Where type sits over the photograph — the footer and the reveal's opening
+  plate — contrast is measured against the brightest pixel actually behind each
+  element rather than assumed, and the scrims are banded to hold it: 5.37:1 at
+  the lowest there. Every control clears the 24px minimum target size (WCAG 2.2
+  SC 2.5.8); links inline in a sentence take the exception and are left at their
+  natural size.
 - **Performance** — self-hosted preloaded woff2, vector artwork, lazy-loaded
   below-fold images, no third-party scripts, no layout-shifting webfont swap.
 - **SEO** — canonical URLs, unique titles and descriptions, Open Graph and
