@@ -42,19 +42,29 @@ Two consequences worth knowing:
 |---|---|---|
 | Inter | SIL Open Font License 1.1 | 2020 The Inter Project Authors |
 | Playfair Display | SIL Open Font License 1.1 | 2017 The Playfair Display Project Authors |
-| Mrs Saint Delafield | SIL Open Font License 1.1 | 2011 Brian J. Bonislawsky, Astigmatic |
+| Qwigley | SIL Open Font License 1.1 | 2011 The Qwigley Project Authors |
 
 All three licences permit self-hosting and commercial use. The OFL requires the
 licence travel with the font files, which was **not** the case until now —
 the full texts are bundled at `assets/fonts/Inter-OFL.txt`,
 `assets/fonts/PlayfairDisplay-OFL.txt` and
-`assets/fonts/MrsSaintDelafield-OFL.txt`. Keep them there when you deploy.
+`assets/fonts/Qwigley-OFL.txt`. Keep them there when you deploy.
 
-Mrs Saint Delafield is the script face used for the "Harry English" signature in
-the footer. It is a **typeface**, not a scan or trace of a handwritten
-signature, so it carries no third-party handwriting rights — but note that it is
-also not a legally distinctive mark. It is a decorative sign-off, not a
-signature that should ever be presented as executing a document.
+Qwigley is the script face used for the "H English" signature in the footer. It
+is a **typeface**, not a scan or trace of a handwritten signature, so it carries
+no third-party handwriting rights — but note that it is also not a legally
+distinctive mark. Anyone can set the same name in the same font. It is a
+decorative sign-off, not a signature that should ever be presented as executing
+a document, and it should not be relied on as a mark of authenticity.
+
+The flourish beneath it is **not** from a font. It is an SVG path drawn for this
+site, so it is original work belonging to you, and it is the one part of the
+signature nobody can reproduce by typing the name into the same typeface. The
+reference style Harry chose appears to come from a commercial signature font
+that is not licensed here; rather than embed a font without a licence, the
+lettering uses an OFL face of similar character and the flourish supplies the
+rest. If you later buy a licence for the original, the swap is one `@font-face`
+line in `assets/css/noir.css` plus the font file.
 
 Playfair Display carries a Reserved Font Name. You may use and redistribute it;
 you may not release a *modified* version of the font under that name. The files

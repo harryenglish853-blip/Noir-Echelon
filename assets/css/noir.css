@@ -1621,20 +1621,27 @@ ul, ol { list-style: none; }
 }
 .foot-sign__name {
   font-family: 'Signature', 'Snell Roundhand', 'Brush Script MT', cursive;
-  font-size: clamp(3.25rem, 9vw, 7rem);
-  line-height: 1.04; color: var(--fg); letter-spacing: 0.01em;
+  font-size: clamp(3.75rem, 10.5vw, 8.25rem);
+  line-height: 1.02; color: var(--fg); letter-spacing: 0.01em;
   /* The wipe reveals the strokes left to right, the way it would be written */
   clip-path: inset(0 100% 0 0);
   transition: clip-path 2.2s cubic-bezier(0.33, 0.7, 0.24, 1) 140ms;
 }
 .foot-sign.is-in .foot-sign__name { clip-path: inset(0 -3% 0 0); }
-.foot-sign__rule {
-  display: block; height: 1px; margin: 6px auto 0;
-  width: 0; max-width: min(560px, 72%);
-  background: linear-gradient(90deg, transparent, var(--hair-2) 16%, var(--hair-2) 84%, transparent);
-  transition: width 1.5s cubic-bezier(0.33, 0.7, 0.24, 1) 700ms;
+
+/* The swash is drawn rather than typed: no signature face carries a flourish
+   for this pair of letters, and a stroke we own is not a mark anyone can set
+   by typing the name into the same font. */
+.foot-sign__swash {
+  display: block; width: min(520px, 62%); margin: -4px auto 0;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.4s cubic-bezier(0.32, 0.72, 0.28, 1) 1150ms;
 }
-.foot-sign.is-in .foot-sign__rule { width: min(560px, 72%); }
+.foot-sign__swash svg {
+  display: block; width: 100%; height: clamp(14px, 2.2vw, 26px);
+  fill: var(--fg); opacity: 0.92;
+}
+.foot-sign.is-in .foot-sign__swash { clip-path: inset(0 -2% 0 0); }
 .foot-sign__line {
   margin-top: clamp(16px, 2vw, 24px);
   font-size: clamp(0.875rem, 1.2vw, 1rem); color: var(--fg);
@@ -1644,7 +1651,7 @@ ul, ol { list-style: none; }
 .foot-sign.is-in .foot-sign__line { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .foot-sign__name, .foot-sign__rule, .foot-sign__line { transition: none; }
+  .foot-sign__name, .foot-sign__swash, .foot-sign__line { transition: none; }
 }
 
 /* --- reach row ---------------------------------------------------------- */
@@ -1674,7 +1681,7 @@ ul, ol { list-style: none; }
 @media (max-width: 560px) {
   .clocks { grid-template-columns: 1fr 1fr; gap: 24px var(--gap); }
   .clock__read { gap: 9px; }
-  .foot-sign__rule, .foot-sign.is-in .foot-sign__rule { max-width: 82%; }
+  .foot-sign__swash { width: 78%; }
 }
 
 /* Footer micro-type sits over a photograph, so it carries one step more weight
