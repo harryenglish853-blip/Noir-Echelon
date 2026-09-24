@@ -1301,20 +1301,50 @@ ul, ol { list-style: none; }
 .reel.is-static .reel__video,
 .reel.is-frozen .reel__video { opacity: 0; }
 
+/* The opening plate. It fills the framed box while the caption is up, then
+   clears to black so the reveal still starts from nothing — the mark is never
+   given away early, which was the whole point of opening on black. */
+.reel__scene {
+  position: absolute; inset: 0; z-index: 2;
+  pointer-events: none;
+}
+.reel__scene img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center 56%;
+  filter: saturate(0.8) contrast(1.04) brightness(0.9);
+}
+/* Scrim: heaviest through the middle band where the caption sits, so the
+   picture keeps its corners and the type keeps its contrast. */
+.reel__scene::after {
+  content: ''; position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(4,4,4,0.82) 0%, rgba(4,4,4,0.6) 16%,
+                            rgba(4,4,4,0.72) 40%, rgba(4,4,4,0.74) 62%,
+                            rgba(4,4,4,0.66) 84%, rgba(4,4,4,0.84) 100%),
+    radial-gradient(ellipse at 50% 50%, rgba(4,4,4,0.44) 12%, rgba(4,4,4,0.12) 72%);
+}
+/* Scroll drives the plate's opacity directly (see noir.js). These are the
+   safety nets: past the opening it is always gone, and when the video cannot
+   run at all the still lockup must not be sitting behind a photograph. */
+.reel[data-phase="mid"] .reel__scene,
+.reel[data-phase="end"] .reel__scene,
+.reel.is-static .reel__scene,
+.reel.is-frozen .reel__scene { opacity: 0 !important; }
+
 /* Vignette hugs the footage rather than the stage around it */
 .reel__veil {
-  position: absolute; inset: 0; pointer-events: none;
+  position: absolute; inset: 0; pointer-events: none; z-index: 3;
   background: radial-gradient(ellipse at 50% 48%, transparent 52%, rgba(4,4,4,0.38) 94%);
 }
 .reel__frame {
-  position: absolute;
+  position: absolute; z-index: 4;
   inset: clamp(12px, 2vw, 34px);
   border: 1px solid rgba(201, 168, 124, 0.30);
   pointer-events: none;
 }
 
 .reel__caption {
-  position: absolute; z-index: 3;
+  position: absolute; z-index: 5;
   left: 0; right: 0; top: 50%;
   transform: translateY(-50%);
   text-align: center;
@@ -1690,3 +1720,9 @@ ul, ol { list-style: none; }
 .site-foot .foot-base,
 .site-foot .foot-base a,
 .site-foot .foot-base__end { color: var(--fg-2); }
+
+/* The eyebrow and the scroll cue are micro-type sitting over a photograph
+   while the opening plate is up, so inside the reel they carry one step more
+   weight than the same elements do on flat black. Measured, not guessed. */
+.reel .reel__caption .eyebrow,
+.reel .reel__cue { color: var(--fg-2); }

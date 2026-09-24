@@ -518,6 +518,12 @@ def home():
                data-webm="assets/video/reveal-1280.webm"
                data-webm-large="assets/video/reveal-1920.webm"
                width="1920" height="1080"></video>
+        <div class="reel__scene" aria-hidden="true">
+          <img src="assets/img/foot-scene.jpg"
+               srcset="assets/img/foot-scene-900.jpg 900w, assets/img/foot-scene.jpg 1600w"
+               sizes="(max-width: 900px) 100vw, 1600px" alt=""
+               width="1600" height="900" loading="lazy" decoding="async">
+        </div>
         <div class="reel__veil" aria-hidden="true"></div>
         <div class="reel__frame" aria-hidden="true"></div>
       </div>

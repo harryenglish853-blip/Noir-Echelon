@@ -407,6 +407,7 @@
     window.addEventListener('touchstart', unlock, { once: true, passive: true });
     window.addEventListener('pointerdown', unlock, { once: true });
 
+    var scene = $('.reel__scene', root);
     var target = 0;
     var current = 0;
     var raf = null;
@@ -459,10 +460,22 @@
       }
     };
 
+    /* The opening plate dissolves while the footage is still black — measured
+       at roughly the first 1.2s of the clip — so the picture gives way to
+       darkness and the mark then assembles out of it. Clearing it on the
+       phase flag instead would cut straight from the photograph to a lit
+       frame, which reads as a jump and spends the dark opening unseen. */
+    var PLATE_HOLD = 0.02;
+    var PLATE_FADE = 0.07;
+
     var draw = function () {
       maybeLoad();
       var p = progress();
       if (meter) meter.style.width = (p * 100).toFixed(2) + '%';
+      if (scene) {
+        var so = 1 - (p - PLATE_HOLD) / PLATE_FADE;
+        scene.style.opacity = (so > 1 ? 1 : (so < 0 ? 0 : so)).toFixed(3);
+      }
       var ph = phase(p);
       if (root.getAttribute('data-phase') !== ph) root.setAttribute('data-phase', ph);
       if (!ready) return;
